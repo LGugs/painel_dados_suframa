@@ -1,0 +1,14 @@
+{
+  "name": "painel_dados_suframa",
+  "version": "1.0.0",
+  "description": "Painel de dados para consulta",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "suframa"
+  ],
+  "author": "Luiz Gustavo",
+  "license": "ISC"
+}

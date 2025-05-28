@@ -1,0 +1,21 @@
+version: "3.8"
+services:
+  backend:
+    container_name: painel_backend
+    build:
+      context: ./backend
+    ports:
+      - ${PORT_BACK}:${PORT_BACK}
+    volumes:
+      - ./backend:/usr/src/app
+    env_file: ./backend/.env
+
+  frontend:
+    container_name: painel_frontend
+    build:
+      context: ./frontend
+    ports:
+      - ${PORT_FRONT}:${PORT_FRONT}
+    volumes:
+      - ./frontend:/usr/src/app
+    env_file: ./frontend/.env
