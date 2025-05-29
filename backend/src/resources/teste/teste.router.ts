@@ -8,6 +8,8 @@ import testeController from "./teste.controller";
 const router = Router();
 router.get("/index/", testeController.teste);
 
+router.get("/query/", testeController.testeBancoOracle);
+
 /*
 router.post("/comprador",
     validarSchema(Schemascomprador.schemaCadastroComprador),

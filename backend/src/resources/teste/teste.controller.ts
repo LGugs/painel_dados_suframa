@@ -1,10 +1,22 @@
 import { Request, Response } from "express";
+import { queryTeste } from "./teste.services";
 
 async function teste(req: Request, res: Response): Promise<any> {
   return res.status(200).json({ msg: "Aqui tudo certo!" });
 }
 
-export default { teste };
+async function testeBancoOracle(req: Request, res: Response): Promise<any> {
+  try {
+    const resultado = await queryTeste();
+    /*if (!resultado)
+      return res.status(404).json({ msg: "Nenhum evento encontrado." });*/
+    return res.status(200).json(resultado.rows);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+}
+
+export default { teste, testeBancoOracle };
 
 /*
 interface GraficoPeriodo {
