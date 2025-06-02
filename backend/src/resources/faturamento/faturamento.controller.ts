@@ -1,14 +1,14 @@
 import { Request, Response } from "express";
 import { fatAnualPolo } from "./faturamento.services";
 import { Result } from "oracledb";
-import { FaturamentoAnualRow } from "./faturamento.types";
+import { FaturamentoAnual } from "./faturamento.types";
 
 async function faturamentoAnualPorPolo(
   req: Request,
   res: Response
 ): Promise<any> {
   try {
-    const resultado: Result<FaturamentoAnualRow> | null = await fatAnualPolo(
+    const resultado: Result<FaturamentoAnual> | null = await fatAnualPolo(
       req.params.ano
     );
     if (!resultado || !resultado.rows || resultado.rows.length === 0) {

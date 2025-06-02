@@ -1,7 +1,4 @@
-export interface FaturamentoAnualRow {
-  DESCRICAO: string;
-  FAT_LOC: number;
-  FAT_NAC: number;
-  FAT_EXT: number;
+export interface FaturamentoAnual {
+  POLO: string;
   TOTAL: number;
 }
