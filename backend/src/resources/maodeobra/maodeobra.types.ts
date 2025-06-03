@@ -6,3 +6,10 @@ export interface MaoDeObra {
   PNE: number;
   TOTAL: number;
 }
+
+export interface MaoDeObraAcu {
+  MASCULINO: number;
+  FEMININO: number;
+  PNE: number;
+  TOTAL: number;
+}

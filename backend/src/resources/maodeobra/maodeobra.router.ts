@@ -9,4 +9,9 @@ router.get(
   maodeobraController.maoDeObraPoloAnoMes
 );
 
+router.get(
+  "/maoDeObraAcuAnoMes/:ano/mes/:mes",
+  maodeobraController.maoDeObraAcuAnoMes
+);
+
 export default router;
