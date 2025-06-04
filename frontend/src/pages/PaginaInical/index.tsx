@@ -9,7 +9,7 @@ import Stack from '@mui/material/Stack';
 import Header from '../../components/Header';
 //import MainGrid from './components/MainGrid';
 //import SideMenu from './components/SideMenu';
-import MainGrid from '../../components/Dashboard';
+import Dashboard from '../../components/Dashboard';
 import AppTheme from '../../theme/AppTheme';
 import Copyright from '../../components/Copyright';
 import {
@@ -24,7 +24,7 @@ const xThemeComponents = {
   ...treeViewCustomizations,
 };
 
-export default function Dashboard(props: { disableCustomTheme?: boolean }) {
+export default function MainPage(props: { disableCustomTheme?: boolean }) {
   return (
     <AppTheme {...props} themeComponents={xThemeComponents}>
       <CssBaseline enableColorScheme />
@@ -55,7 +55,7 @@ export default function Dashboard(props: { disableCustomTheme?: boolean }) {
             }}
           >
             <Header />
-            <MainGrid />
+            <Dashboard tipo='Mão de Obra'/>
             <Copyright sx={{ mt: 4 }} />
           </Stack>
         </Box>
