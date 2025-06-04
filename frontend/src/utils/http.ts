@@ -19,7 +19,8 @@ class Http {
 
   initHttp() {
     const PORT_BACK = import.meta.env.VITE_PORT_BACK;
-    const apiUrl = `http://localhost:${PORT_BACK}/v1`;
+    const HOST_BACK = import.meta.env.VITE_API_HOST || 'localhost'; // caso no .env não seja definido
+    const apiUrl = `http://${HOST_BACK}:${PORT_BACK}/v1`;
     const http = axios.create({
       baseURL: apiUrl,
       headers,

@@ -27,7 +27,7 @@ export default function PaginaInicial() {
     <>
       <div>
         <h1>
-          {convertMesToDesc(mesPassado.mes)}/{mesPassado.ano}
+          {convertMesToDesc("4")}/{mesPassado.ano}
         </h1>
         {maoDeObraData?.map((item: MaoDeObra, index: number) => (
           <div key={index}>
