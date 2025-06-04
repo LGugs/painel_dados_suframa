@@ -1,44 +1,65 @@
-import { useEffect, useState } from "react";
-import { getMaoDeObra } from "../../services/maodeobra.service";
-import type { MaoDeObra } from "../../interfaces/GetMaoDeObra";
-import type { MesPassado } from "../../interfaces/MesPassado";
-import { getAnoMes, convertMesToDesc } from "../../utils/getAnoMes";
-//import { useParams } from 'react-router-dom';
+import type {} from '@mui/x-date-pickers/themeAugmentation';
+import type {} from '@mui/x-data-grid-pro/themeAugmentation';
+import type {} from '@mui/x-tree-view/themeAugmentation';
+import { alpha } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
+//import AppNavbar from './components/AppNavbar';
+import Header from '../../components/Header';
+//import MainGrid from './components/MainGrid';
+//import SideMenu from './components/SideMenu';
+import MainGrid from '../../components/Dashboard';
+import AppTheme from '../../theme/AppTheme';
+import Copyright from '../../components/Copyright';
+import {
+  dataGridCustomizations,
+  datePickersCustomizations,
+  treeViewCustomizations,
+} from '../../theme/customizations';
 
-export default function PaginaInicial() {
-  const [maoDeObraData, setMaoDeObraData] = useState<MaoDeObra[]>();
-  //const [testeValor, setTesteValor] = useState<number>(0);
-  const [mesPassado] = useState<MesPassado>(getAnoMes()); // sempre teremos valor do mes passado
+const xThemeComponents = {
+  ...dataGridCustomizations,
+  ...datePickersCustomizations,
+  ...treeViewCustomizations,
+};
 
-  useEffect(() => {
-    (async () => {
-      try {
-        const res = await getMaoDeObra(mesPassado.ano, "4"); // teste
-        const dados = res?.data;
-        setMaoDeObraData(dados);
-        console.log(dados);
-      } catch (error) {
-        console.error(error);
-      }
-    })();
-  }, [mesPassado]);
-
+export default function Dashboard(props: { disableCustomTheme?: boolean }) {
   return (
-    <>
-      <div>
-        <h1>
-          {convertMesToDesc("4")}/{mesPassado.ano}
-        </h1>
-        {maoDeObraData?.map((item: MaoDeObra, index: number) => (
-          <div key={index}>
-            <p>Polo: {item.POLO}</p>
-            <p>Masculino: {item.MASCULINO}</p>
-            <p>Feminino: {item.FEMININO}</p>
-            <p>PNE: {item.PNE}</p>
-            <p>Total: {item.TOTAL}</p>
-          </div>
-        ))}
-      </div>
-    </>
+    <AppTheme {...props} themeComponents={xThemeComponents}>
+      <CssBaseline enableColorScheme />
+      <Box sx={{ display: 'flex', minHeight: '100vh' }}>
+        {/*<SideMenu />
+        <AppNavbar />*/}
+        {/* Main content */}
+        <Box
+          component="main"
+          sx={(theme) => ({
+            flexGrow: 1,
+            height: '100%',
+            minHeight: '100vh',
+            backgroundColor: theme.vars
+              ? `rgba(${theme.vars.palette.background.defaultChannel} / 1)`
+              : alpha(theme.palette.background.default, 1),
+            overflow: 'auto',
+          })}
+        >
+          <Stack
+            spacing={2}
+            sx={{
+              width: '100%',
+              maxWidth: '100%',
+              mx: 'auto',
+              pb: 5,
+              mt: { xs: 8, md: 0 },
+            }}
+          >
+            <Header />
+            <MainGrid />
+            <Copyright sx={{ mt: 4 }} />
+          </Stack>
+        </Box>
+      </Box>
+    </AppTheme>
   );
 }
