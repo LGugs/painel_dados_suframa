@@ -6,6 +6,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 //import AppNavbar from './components/AppNavbar';
+import Copyright from '../../components/Copyright';
 import Header from '../../components/Header';
 //import MainGrid from './components/MainGrid';
 //import SideMenu from './components/SideMenu';
@@ -41,7 +42,9 @@ export default function MainPage(props: { disableCustomTheme?: boolean }) {
             backgroundColor: theme.vars
               ? `rgba(${theme.vars.palette.background.defaultChannel} / 1)`
               : alpha(theme.palette.background.default, 1),
-            overflow: 'auto',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
           })}
         >
           <Stack
@@ -50,12 +53,25 @@ export default function MainPage(props: { disableCustomTheme?: boolean }) {
               width: '100%',
               maxWidth: '100%',
               mx: 'auto',
-              pb: 5,
-              mt: { xs: 8, md: 0 },
+              px: 2,
+              py: 4,
+              flexGrow: 1,
             }}
           >
             <Header />
-            <DashboardPage tipo="Mão de Obra"/>
+            <Stack
+              direction={{ xs: 'column', md: 'row' }}
+              spacing={4}
+              sx={{ width: '100%', px: 2, flexWrap: 'wrap' }}
+            >
+              <Box id='vish1' sx={{ flex: 1, minWidth: 400 }}>
+                <DashboardPage tipo="Faturamento" />
+              </Box>
+              <Box id='vish2' sx={{ flex: 1, minWidth: 400 }}>
+                 <DashboardPage tipo="Mão de Obra"/>
+              </Box>
+            </Stack>
+            <Copyright sx={{ mt: 'auto', textAlign: 'center', pb: 2 }} />
           </Stack>
         </Box>
       </Box>

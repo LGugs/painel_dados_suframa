@@ -1,17 +1,9 @@
-//import * as React from 'react';
-import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import { Stack } from "@mui/material";
 import type { DashboardTypes } from "../../interfaces/Dashboard"
-//import Stack from '@mui/material/Stack';
 import Typography from "@mui/material/Typography";
-import Copyright from '../../components/Copyright';
-//import ChartUserByCountry from './ChartUserByCountry';
-//import CustomizedTreeView from './CustomizedTreeView';
-//import CustomizedDataGrid from './CustomizedDataGrid';
-//import HighlightedCard from './HighlightedCard';
 import CustomCard from "../Cards";
-import { type CardProps } from "../../interfaces/Cards"
+import Grafico from "../Graficos";
 
 export default function Dashboard(config: DashboardTypes) {
   return (
@@ -30,20 +22,32 @@ export default function Dashboard(config: DashboardTypes) {
         {config.tipo}
       </Typography>
       <Stack
-      id="alo"
-        direction="column"
-        spacing={3}
+        direction="row"
+        spacing={4}
+        justifyContent="space-between"
         alignItems={"flex-start"}
         mb={(theme) => theme.spacing(2)}
-        maxWidth={200}
         width={'100%'}
         mt={10}
       >
+        <Stack spacing={2} sx={{ minWidth: 200 }}>
         {config.cards.map((card, index) => (
-          <Grid key={index} size={{ xs: 6, sm: 6, lg: 3 }}>
-            <CustomCard {...card} sx={{minHeight: 50, width: 200}} />
-          </Grid>
+            <CustomCard key={index} {...card} sx={{minHeight: 50, width: 200}} />
         ))}
+        </Stack>
+      
+      {config.graficos && (
+          <Box
+            sx={{
+              flex: 1,
+              width: { xs: "100%", md: "40%" },
+              minHeight: 300,
+            }}
+          >
+            <Grafico {...config.graficos} />
+          </Box>
+        )}
+        
       </Stack>
       {/*<Grid container spacing={2} columns={12}>
         <Grid size={{ xs: 12, lg: 9 }}>
@@ -56,7 +60,6 @@ export default function Dashboard(config: DashboardTypes) {
           </Stack>
         </Grid>
       </Grid>*/}
-      <Copyright sx={{ mt: 4 }} />
     </Box>
   );
 }

@@ -18,26 +18,60 @@ export function getDashboardConfig(tipo: string): DashboardTypes {
           titulo: "PNE",
           valor: 3854,
         },
-        
         ],
+        graficos: {
+          type: 'doughnut',
+          data: [
+            { name: 'Masculina', value: 70726 },
+            { name: 'Feminina', value: 35505 },
+          ],
+        },
       };
       
-    /*case "Faturamento":
+    case "Faturamento":
       return {
         tipo: "Faturamento",
         cards: [
-          { label: "Produtos", value: "120" },
-          { label: "Fora de Estoque", value: "8" },
+        {
+          titulo: "Total",
+          valor: 110085,
+        },
+        {
+          titulo: "Mês Informado",
+          valor: 35505,
+        },
+        {
+          titulo: "Em consolidação",
+          valor: 3854,
+        },
         ],
-        charts: [
-          { type: "pie", data: {...}, options: {...} },
-        ],
-      };*/
+        graficos: {
+         type: 'bar',
+          data: [
+            { name: 'Janeiro', value: Math.random() },
+            { name: 'Fevereiro', value: Math.random() },
+            { name: 'Março', value: Math.random() },
+            { name: 'Abril', value: Math.random() },
+            { name: 'Abril', value: Math.random(), itemStyle: { color: '#ff0000' } },
+            { name: 'Junho', value: Math.random() },
+            { name: 'Julho', value: Math.random() },
+            { name: 'Agosto', value: Math.random() },
+            { name: 'Setembro', value: Math.random() },
+            { name: 'Outubro', value: Math.random() },
+            { name: 'Novembro', value: Math.random() },
+            { name: 'Dezembro', value: Math.random() },
+          ],
+        },
+      };
     default:
       return {
-        tipo: "Dashboard",
+        tipo: "Tipo não definido",
         cards: [],
-        //charts: [],
+        graficos: {
+          title: 'Sem dados!',
+          type: 'bar',
+          data: []
+        }
       };
   }
 }
