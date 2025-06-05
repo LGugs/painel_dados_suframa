@@ -1,43 +1,53 @@
 //import * as React from 'react';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
 //import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
+import Typography from "@mui/material/Typography";
 //import ChartUserByCountry from './ChartUserByCountry';
 //import CustomizedTreeView from './CustomizedTreeView';
 //import CustomizedDataGrid from './CustomizedDataGrid';
 //import HighlightedCard from './HighlightedCard';
-import CustomCard, { type CardProps } from '../Cards';
+import CustomCard, { type CardProps } from "../Cards";
 
 const data: CardProps[] = [
   {
-    title: 'Masculina',
+    title: "Masculina",
     value: 70726,
   },
   {
-    title: 'Feminina',
-    value: 35505
+    title: "Feminina",
+    value: 35505,
   },
   {
-    title: 'PNE',
+    title: "PNE",
     value: 3854,
   },
   {
-    title: 'Total',
+    title: "Total",
     value: 110085,
   },
 ];
 
-export interface Dashboard{
+export interface Dashboard {
   tipo: string;
+  cards?: [];
 }
 
-export default function Dashboard(props: Dashboard) {
+export default function Dashboard(config: Dashboard) {
   return (
-    <Box sx={{ width: '100%', minHeight: '100vh', px: 2,  py: 4, boxSizing: 'border-box', bgcolor: 'background.default' }}>
+    <Box
+      sx={{
+        width: "100%",
+        minHeight: "100vh",
+        px: 2,
+        py: 4,
+        boxSizing: "border-box",
+        bgcolor: "background.default",
+      }}
+    >
       {/* cards */}
       <Typography component="h1" variant="h6" sx={{ mb: 2 }}>
-        {props.tipo}
+        {config.tipo}
       </Typography>
       <Grid
         container
@@ -50,7 +60,6 @@ export default function Dashboard(props: Dashboard) {
             <CustomCard {...card} />
           </Grid>
         ))}
-        
       </Grid>
       {/*<Typography component="h2" variant="h6" sx={{ mb: 2 }}>
         Details

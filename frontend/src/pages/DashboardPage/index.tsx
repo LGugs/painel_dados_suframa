@@ -1,5 +1,6 @@
-import { Dashboard } from "./Dashboard";
+import Dashboard from "../../components/Dashboard";
 import { useParams } from "react-router-dom";
+import { getDashboardConfig } from "./dashboardConfigs";
 
 export function DashboardPage() {
   const { tipo } = useParams();
