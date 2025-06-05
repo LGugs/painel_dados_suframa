@@ -1,9 +1,7 @@
 import Dashboard from "../../components/Dashboard";
-import { useParams } from "react-router-dom";
 import { getDashboardConfig } from "./dashboardConfigs";
 
-export function DashboardPage() {
-  const { tipo } = useParams();
+export default function DashboardPage({ tipo }: { tipo: string }) {
 
   const config = getDashboardConfig(tipo); // função que retorna os dados com base no tipo
 

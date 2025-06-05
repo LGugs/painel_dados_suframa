@@ -4,22 +4,24 @@ import CardContent from '@mui/material/CardContent';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import convertNumber from '../../utils/money';
-
-export type CardProps = {
-  title: string;
-  value: number;
-};
+import { type CardProps } from '../../interfaces/Cards';
 
 export default function CustomCard({
-  title,
-  value,
+  titulo,
+  valor,
+  sx
 }: CardProps) {
 
   return (
-    <Card variant="outlined" sx={{ height: '100%', flexGrow: 1 }}>
-      <CardContent>
+    <Card variant="outlined"  sx={{
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        ...sx, // permite sobrescrever
+      }}>
+      <CardContent sx={{ flexGrow: 1 }}>
         <Typography component="h2" variant="subtitle2" gutterBottom>
-          {title}
+          {titulo}
         </Typography>
         <Stack
           direction="column"
@@ -28,7 +30,7 @@ export default function CustomCard({
           <Stack sx={{ justifyContent: 'space-between' }}>
             
               <Typography variant="h4" component="p">
-                {convertNumber(value)}
+                {convertNumber(valor)}
               </Typography>
             
           </Stack>

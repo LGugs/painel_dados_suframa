@@ -1,33 +1,43 @@
-export function getDashboardConfig(tipo: string) {
+import type { DashboardTypes } from "../../interfaces/Dashboard";
+
+export function getDashboardConfig(tipo: string): DashboardTypes {
   switch (tipo) {
-    case "financeiro":
+    case "Mão de Obra":
       return {
-        title: "Dashboard Financeiro",
+        tipo: "Mão de Obra",
         cards: [
-          { label: "Receita", value: "R$ 25.000" },
-          { label: "Despesas", value: "R$ 18.000" },
-          { label: "Lucro", value: "R$ 7.000" },
-        ],
-        charts: [
-          { type: "bar", data: {/*...*/}, options: {/*...*/} },
+        {
+          titulo: "Total",
+          valor: 110085,
+        },
+        {
+          titulo: "Feminina",
+          valor: 35505,
+        },
+        {
+          titulo: "PNE",
+          valor: 3854,
+        },
+        
         ],
       };
-    case "estoque":
+      
+    /*case "Faturamento":
       return {
-        title: "Dashboard de Estoque",
+        tipo: "Faturamento",
         cards: [
           { label: "Produtos", value: "120" },
           { label: "Fora de Estoque", value: "8" },
         ],
         charts: [
-          { type: "pie", data: {/*...*/}, options: {/*...*/} },
+          { type: "pie", data: {...}, options: {...} },
         ],
-      };
+      };*/
     default:
       return {
-        title: "Dashboard",
+        tipo: "Dashboard",
         cards: [],
-        charts: [],
+        //charts: [],
       };
   }
 }

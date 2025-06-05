@@ -9,14 +9,14 @@ import Stack from '@mui/material/Stack';
 import Header from '../../components/Header';
 //import MainGrid from './components/MainGrid';
 //import SideMenu from './components/SideMenu';
-import Dashboard from '../../components/Dashboard';
+//import Dashboard from '../../components/Dashboard';
 import AppTheme from '../../theme/AppTheme';
-import Copyright from '../../components/Copyright';
 import {
   dataGridCustomizations,
   datePickersCustomizations,
   treeViewCustomizations,
 } from '../../theme/customizations';
+import DashboardPage from '../../pages/DashboardPage/';
 
 const xThemeComponents = {
   ...dataGridCustomizations,
@@ -55,8 +55,7 @@ export default function MainPage(props: { disableCustomTheme?: boolean }) {
             }}
           >
             <Header />
-            <Dashboard tipo='Mão de Obra'/>
-            <Copyright sx={{ mt: 4 }} />
+            <DashboardPage tipo="Mão de Obra"/>
           </Stack>
         </Box>
       </Box>
