@@ -11,4 +11,7 @@ export const store = configureStore({
   },
 });
 
+// para garantir o tipo do state quando formos consumir
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
 export default store;

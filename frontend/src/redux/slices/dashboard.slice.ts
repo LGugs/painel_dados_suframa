@@ -1,21 +1,27 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+
+export interface DashboardState {
+  title: string;
+}
+
+const initialState: DashboardState = {
+  title: "Acumulado",
+};
 
 const DashboardSlice = createSlice({
   name: "DashboardSlice",
-  initialState: {
-    title: "",
-  },
+  initialState,
   reducers: {
-    setTitle: (state, { payload }) => {
-      state.title = payload.title;
-      return state;
+    setDashPolo: (state, action: PayloadAction<{ title: string }>) => {
+      state.title = action.payload.title;
+      //return state; o return é opcional pois estou modificando o estado diretamente
     },
-    eraseDashboardState: (state) => {
+    eraseDashPolo: (state) => {
       state.title = "";
-      return state;
+      //return state; o return é opcional pois estou modificando o estado diretamente
     },
   },
 });
 
-export const { eraseDashboardState, setTitle } = DashboardSlice.actions;
+export const { eraseDashPolo, setDashPolo } = DashboardSlice.actions;
 export default DashboardSlice.reducer;

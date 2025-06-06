@@ -1,7 +1,10 @@
-import { styled } from '@mui/material/styles';
-import Typography from '@mui/material/Typography';
-import Breadcrumbs, { breadcrumbsClasses } from '@mui/material/Breadcrumbs';
-import NavigateNextRoundedIcon from '@mui/icons-material/NavigateNextRounded';
+import { styled } from "@mui/material/styles";
+import Typography from "@mui/material/Typography";
+import Breadcrumbs, { breadcrumbsClasses } from "@mui/material/Breadcrumbs";
+import NavigateNextRoundedIcon from "@mui/icons-material/NavigateNextRounded";
+//import { useSelector } from "react-redux";
+// é um useSelector tipado corretamente (RootState + useAppSelector), pois o "state" retornava erro de TS
+import { useAppSelector } from "../../redux/hooks";
 
 const StyledBreadcrumbs = styled(Breadcrumbs)(({ theme }) => ({
   margin: theme.spacing(1, 0),
@@ -10,19 +13,24 @@ const StyledBreadcrumbs = styled(Breadcrumbs)(({ theme }) => ({
     margin: 1,
   },
   [`& .${breadcrumbsClasses.ol}`]: {
-    alignItems: 'center',
+    alignItems: "center",
   },
 }));
 
 export default function NavbarBreadcrumbs() {
+  const titulo = useAppSelector((state) => state.DashboardReducer.title);
+
   return (
     <StyledBreadcrumbs
       aria-label="breadcrumb"
       separator={<NavigateNextRoundedIcon fontSize="small" />}
     >
-      <Typography variant="body1">Dashboard</Typography>
-      <Typography variant="body1" sx={{ color: 'text.primary', fontWeight: 600 }}>
-        Mão de Obra
+      <Typography variant="body1">Painel de Dados</Typography>
+      <Typography
+        variant="body1"
+        sx={{ color: "text.primary", fontWeight: 600 }}
+      >
+        {titulo}
       </Typography>
     </StyledBreadcrumbs>
   );
