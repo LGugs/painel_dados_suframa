@@ -1,65 +1,54 @@
-import { type GraficoProps } from '../../interfaces/Graficos';
-import { useEffect, useMemo, useRef } from 'react';
-import { useColorScheme } from '@mui/material/styles';
-import { type ECOption } from '../../interfaces/Echarts.types';
-import * as echarts from 'echarts';
+import { type GraficoProps } from "../../interfaces/Graficos";
+import { useEffect, useMemo, useRef } from "react";
+import { useColorScheme } from "@mui/material/styles";
+import { type ECOption } from "../../interfaces/Echarts.types";
+import * as echarts from "echarts";
 
 export default function Grafico({ type, title, data }: GraficoProps) {
   const chartRef = useRef<HTMLDivElement>(null);
-  const { mode, systemMode  } = useColorScheme();
-  const resolvedMode = mode === 'system' ? systemMode : mode;
-
-  const getEchartsTheme = () => {
-      switch (resolvedMode) {
-        case 'dark':
-          return 'dark';
-        case 'light':
-          return 'light';
-        default:
-          return undefined;
-      }
-    };
+  const { mode, systemMode } = useColorScheme();
+  const resolvedMode = mode === "system" ? systemMode : mode;
 
   const getOption: ECOption = useMemo(() => {
-    const textColor = resolvedMode === 'dark' ? '#fff' : '#000';
+    const textColor = resolvedMode === "dark" ? "#fff" : "#000";
 
     switch (type) {
-      case 'pie':
-      case 'doughnut':
+      case "pie":
+      case "doughnut":
         return {
           title: {
             text: title,
-            left: 'center',
+            left: "center",
             textStyle: { color: textColor },
           },
           tooltip: {
-            trigger: 'item',
+            trigger: "item",
           },
           legend: {
             bottom: 10,
-            left: 'center',
+            left: "center",
             textStyle: { color: textColor },
           },
           series: [
             {
               label: {
-                show: false
+                show: false,
               },
               name: title,
-              type: 'pie',
-              radius: type === 'doughnut' ? ['40%', '70%'] : '60%',
+              type: "pie",
+              radius: type === "doughnut" ? ["40%", "70%"] : "60%",
               data,
               emphasis: {
                 itemStyle: {
                   shadowBlur: 10,
                   shadowOffsetX: 0,
-                  shadowColor: 'rgba(0, 0, 0, 0.5)',
+                  shadowColor: "rgba(0, 0, 0, 0.5)",
                 },
               },
             },
           ],
         };
-      case 'bar':
+      case "bar":
       default:
         return {
           title: {
@@ -67,12 +56,12 @@ export default function Grafico({ type, title, data }: GraficoProps) {
             textStyle: { color: textColor },
           },
           xAxis: {
-            type: 'category',
-            data: data.map((d) => (d.name)),
+            type: "category",
+            data: data.map((d) => d.name),
             textStyle: { color: textColor },
           },
           yAxis: {
-            type: 'value',
+            type: "value",
             textStyle: { color: textColor },
           },
           legend: {
@@ -82,9 +71,9 @@ export default function Grafico({ type, title, data }: GraficoProps) {
             {
               data: data.map((d) => ({
                 value: d.value,
-                itemStyle: d.itemStyle
+                itemStyle: d.itemStyle,
               })),
-              type: 'bar',
+              type: "bar",
             },
           ],
         };
@@ -93,6 +82,17 @@ export default function Grafico({ type, title, data }: GraficoProps) {
 
   useEffect(() => {
     if (!chartRef.current) return;
+
+    const getEchartsTheme = () => {
+      switch (resolvedMode) {
+        case "dark":
+          return "dark";
+        case "light":
+          return "light";
+        default:
+          return undefined;
+      }
+    };
 
     const theme = getEchartsTheme();
 
@@ -105,13 +105,13 @@ export default function Grafico({ type, title, data }: GraficoProps) {
     chart.setOption(getOption);
 
     const handleResize = () => chart.resize();
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
     return () => {
       chart.dispose();
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, [getOption, resolvedMode]);
 
-  return <div ref={chartRef} style={{ width: '100%', height: 300 }} />;
+  return <div ref={chartRef} style={{ width: "100%", height: 300 }} />;
 }

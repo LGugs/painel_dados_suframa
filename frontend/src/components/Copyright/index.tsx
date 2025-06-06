@@ -14,11 +14,11 @@ export default function Copyright(props: TypographyProps) {
         ...(Array.isArray(props.sx) ? props.sx : [props.sx]),
       ]}
     >
-      {"Copyright © "}
+      {"© "}
+      {new Date().getFullYear()}{" "}
       <Link color="inherit" href="https://www.gov.br/suframa/pt-br">
-        SUFRAMA
-      </Link>{" "}
-      {new Date().getFullYear()}
+        SUFRAMA - Superintendência da Zona Franca de Manaus
+      </Link>
     </Typography>
   );
 }
