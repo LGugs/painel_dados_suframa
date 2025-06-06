@@ -17,7 +17,6 @@ export async function maoObraAnualMesPolo(
   const result = await conn.execute<MaoDeObra>(
     `SELECT
       csb.sset_descricao AS polo,
-      SUM(T2.vmd1_emps_1_dia_mes-T2.vmd1_qtde_feminina-T2.vmd1_qtde_pne) Masculino,
       SUM(T2.vmd1_qtde_feminina) Feminino,
       SUM(T2.vmd1_qtde_pne) PNE,
       SUM(T2.vmd1_emps_1_dia_mes) Total
@@ -42,7 +41,7 @@ export async function maoObraAnualMesPolo(
 
 //#region MAO DE OBRA ANUAL/MENSAL ACUMULADO
 export async function maoObraAnualMesAcumulado(
-  ano: string | undefined,
+  ano: string,
   mes: string | undefined
 ): Promise<Result<MaoDeObraAcu> | null> {
   if (ano === undefined) return null; // segurança caso não passe parametros obrigatorios
@@ -53,7 +52,6 @@ export async function maoObraAnualMesAcumulado(
   conn = await getConnection();
   const result = await conn.execute<MaoDeObraAcu>(
     `SELECT
-      SUM(T2.vmd1_emps_1_dia_mes-T2.vmd1_qtde_feminina-T2.vmd1_qtde_pne) Masculino,
       SUM(T2.vmd1_qtde_feminina) Feminino,
       SUM(T2.vmd1_qtde_pne) PNE,
       SUM(T2.vmd1_emps_1_dia_mes) Total

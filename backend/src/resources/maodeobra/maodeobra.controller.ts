@@ -34,7 +34,16 @@ async function maoDeObraAcuAnoMes(req: Request, res: Response): Promise<any> {
           "Não existe mão de obra cadastrada para o ano/mês selecionado!",
       });
     }
-    return res.status(200).json(resultado.rows);
+
+    const dados = resultado.rows[0]; // sempre terá apenas uma linha
+
+    const cards = [
+      { titulo: "Feminina", valor: dados.FEMININO ?? 0 },
+      { titulo: "PNE", valor: dados.PNE ?? 0 },
+      { titulo: "Total", valor: dados.TOTAL ?? 0 },
+    ];
+
+    return res.status(200).json(cards);
   } catch (error) {
     return res.status(500).json(error);
   }
