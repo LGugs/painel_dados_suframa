@@ -1,12 +1,11 @@
 import { Router } from "express";
-import { maoDeObraPoloAnoMes, getCards } from "./cards.controller";
+import { getMaoDeObraCards } from "./cards.controller";
 
 const router = Router();
-router.get("/maoDeObraPoloMes/:ano", maoDeObraPoloAnoMes);
 
-router.get("/maoDeObraPoloMes/:ano/mes/:mes", maoDeObraPoloAnoMes);
+// Retorna os cards dos tipos Faturamento ou Mão de Obra
+// v1/cards/getCards?tipo=MaoDeObra ou  v1/cards/getCards?tipo=Faturamento
 
-// Cards de Mão de Obra pegos pelo ultimo mes "valido". Dois meses atras da data atual
-router.get("/getCards/", getCards);
+router.get("/getCards/", getMaoDeObraCards);
 
 export default router;
