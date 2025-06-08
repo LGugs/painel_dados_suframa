@@ -64,7 +64,8 @@ export default function MainPage(props: { disableCustomTheme?: boolean }) {
               sx={{ width: "100%", flexWrap: "wrap" }}
             >
               <Box id="vish1" sx={{ flex: 1, minWidth: 400 }}>
-                <DashboardPage tipo="Faturamento" />
+                <DashboardPage tipo="Faturamento" />{" "}
+                {/* endpoint ainda não desenvolvido, vai dar erro */}
               </Box>
               <Box id="vish2" sx={{ flex: 1, minWidth: 400 }}>
                 <DashboardPage tipo="Mão de Obra" />

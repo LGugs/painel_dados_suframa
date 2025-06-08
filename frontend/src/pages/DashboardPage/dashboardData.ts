@@ -1,6 +1,38 @@
 import type { DashboardTypes } from "../../interfaces/Dashboard";
+import { getCards } from "../../services/cards.service";
 
-export function getDashboardConfig(tipo: string): DashboardTypes {
+export async function getDashboardData(tipo: string): Promise<DashboardTypes> {
+  try {
+    //const [cardData] = await Promise.all([getCards(tipo)]);
+    const cardData = await getCards(tipo);
+
+    console.log(cardData);
+    return {
+      tipo,
+      cards: cardData,
+      graficos: {
+        type: tipo === "Faturamento" ? "bar" : "doughnut",
+        data: [
+          { name: "Masculina", value: 70726 },
+          { name: "Feminina", value: 35505 },
+        ],
+      },
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      tipo,
+      cards: [],
+      graficos: {
+        type: "bar",
+        title: "Erro ao carregar",
+        data: [],
+      },
+    };
+  }
+}
+
+/*
   switch (tipo) {
     case "Mão de Obra":
       return {
@@ -79,3 +111,4 @@ export function getDashboardConfig(tipo: string): DashboardTypes {
       };
   }
 }
+*/

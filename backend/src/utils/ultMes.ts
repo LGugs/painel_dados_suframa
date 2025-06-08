@@ -1,9 +1,14 @@
-export function getMesPassado(): string {
-  const dataAtual = new Date();
-  const mesPassado = new Date(
-    dataAtual.getFullYear(),
-    dataAtual.getMonth() - 1
-  );
-  const numeroMes = mesPassado.getMonth() + 1; // lembrando que 0 é Janeiro e 11 é Dezembro. Por isso o +1
-  return numeroMes.toString();
+export interface MesPassado {
+  mes: string;
+  ano: string;
+}
+
+export function getDoisMesesAnteriores(): MesPassado {
+  const hoje = new Date();
+  const dataAjustada = new Date(hoje.getFullYear(), hoje.getMonth() - 2, 1);
+
+  const mes = (dataAjustada.getMonth() + 1).toString();
+  const ano = dataAjustada.getFullYear().toString();
+
+  return { mes, ano };
 }

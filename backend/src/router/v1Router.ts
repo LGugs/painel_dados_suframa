@@ -2,7 +2,7 @@ import { Router } from "express";
 
 import testeRouter from "../resources/teste/teste.router";
 import faturamentoRouter from "../resources/faturamento/faturamento.router";
-import maoDeObraRouter from "../resources/maodeobra/maodeobra.router";
+import cardsRouter from "../resources/cards/cards.router";
 
 const router = Router();
 
@@ -19,9 +19,9 @@ router.use(
 );
 
 router.use(
-  "/maodeobra",
+  "/cards",
   // #swagger.tags = ['Auth']
-  maoDeObraRouter
+  cardsRouter
 );
 
 export default router;

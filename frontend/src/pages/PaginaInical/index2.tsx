@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { getMaoDeObra } from "../../services/maodeobra.service";
-import type { MaoDeObra } from "../../interfaces/GetMaoDeObra";
+import { getMaoDeObraCards } from "../../services/cards.service";
+import type { MaoDeObra } from "../../interfaces/MaoDeObra";
 import type { MesPassado } from "../../interfaces/MesPassado";
 import { getAnoMes, convertMesToDesc } from "../../utils/getAnoMes";
 //import { useParams } from 'react-router-dom';
@@ -13,7 +13,7 @@ export default function PaginaInicial() {
   useEffect(() => {
     (async () => {
       try {
-        const res = await getMaoDeObra(mesPassado.ano, "4"); // teste
+        const res = await getMaoDeObraCards(mesPassado.ano, "4"); // teste
         const dados = res?.data;
         setMaoDeObraData(dados);
         console.log(dados);

@@ -5,7 +5,8 @@ import Typography from "@mui/material/Typography";
 import CustomCard from "../Cards";
 import Grafico from "../Graficos";
 
-export default function Dashboard(config: DashboardTypes) {
+export default function Dashboard(data: DashboardTypes) {
+  console.log("DATA RECEBIDA PELO COMPONENTE DASHBOARD:", data);
   return (
     <Box
       sx={{
@@ -20,7 +21,7 @@ export default function Dashboard(config: DashboardTypes) {
     >
       {/* cards */}
       <Typography component="h1" variant="h6" sx={{ mb: 2 }}>
-        {config.tipo}
+        {data.tipo}
       </Typography>
       <Stack
         direction="row"
@@ -30,7 +31,7 @@ export default function Dashboard(config: DashboardTypes) {
         width={"100%"}
       >
         <Stack spacing={2} sx={{ minWidth: 200 }}>
-          {config.cards.map((card, index) => (
+          {data.cards.map((card, index) => (
             <CustomCard
               key={index}
               {...card}
@@ -39,7 +40,7 @@ export default function Dashboard(config: DashboardTypes) {
           ))}
         </Stack>
 
-        {config.graficos && (
+        {data.graficos && (
           <Box
             sx={{
               flex: 1,
@@ -47,7 +48,7 @@ export default function Dashboard(config: DashboardTypes) {
               minHeight: 300,
             }}
           >
-            <Grafico {...config.graficos} />
+            <Grafico {...data.graficos} />
           </Box>
         )}
       </Stack>
