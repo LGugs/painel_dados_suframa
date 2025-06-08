@@ -1,5 +1,5 @@
 export interface MaoDeObraCard {
-  FEMININO: number;
+  FEMININA: number;
   PNE: number;
   TOTAL: number;
   data?: MaoDeObraCard[];

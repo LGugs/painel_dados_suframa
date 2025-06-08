@@ -1,5 +1,11 @@
+export interface GraficoData {
+  name: string;
+  value: number;
+  itemStyle?: { color: string };
+}
+
 export interface GraficoProps {
-  type: 'bar' | 'pie' | 'doughnut';
+  type: "bar" | "line" | "doughnut";
   title?: string;
-  data: { name: string; value: number; itemStyle?: { color: string } }[];
+  data: GraficoData[];
 }

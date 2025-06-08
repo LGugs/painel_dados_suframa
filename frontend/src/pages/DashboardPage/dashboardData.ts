@@ -1,21 +1,22 @@
 import type { DashboardTypes } from "../../interfaces/Dashboard";
 import { getCards } from "../../services/cards.service";
+import { getGrafico } from "../../services/grafico.service";
 
 export async function getDashboardData(tipo: string): Promise<DashboardTypes> {
   try {
-    //const [cardData] = await Promise.all([getCards(tipo)]);
-    const cardData = await getCards(tipo);
+    const [cardData, graficoData] = await Promise.all([
+      getCards(tipo),
+      getGrafico(tipo),
+    ]);
 
-    console.log(cardData);
+    console.log("HELLO!! " + graficoData);
+
     return {
       tipo,
       cards: cardData,
       graficos: {
         type: tipo === "Faturamento" ? "bar" : "doughnut",
-        data: [
-          { name: "Masculina", value: 70726 },
-          { name: "Feminina", value: 35505 },
-        ],
+        data: graficoData,
       },
     };
   } catch (error) {
