@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import convertNumber from "../../utils/money";
 import { type CardProps } from "../../interfaces/Cards";
 
-export default function CustomCard({ titulo, valor, sx }: CardProps) {
+export default function CustomCard({ tipo, titulo, valor, sx }: CardProps) {
   return (
     <Card
       variant="outlined"
@@ -14,7 +14,7 @@ export default function CustomCard({ titulo, valor, sx }: CardProps) {
         width: "100%",
         display: "flex",
         flexDirection: "column",
-        ...sx, // permite sobrescrever
+        ...sx, // permite sobrescrever caracteristicas visuais
       }}
     >
       <CardContent sx={{ flexGrow: 1 }}>
@@ -27,7 +27,9 @@ export default function CustomCard({ titulo, valor, sx }: CardProps) {
         >
           <Stack sx={{ justifyContent: "space-between" }}>
             <Typography variant="h4" component="p">
-              {convertNumber(valor)}
+              {tipo === "Faturamento"
+                ? "R$ " + convertNumber(valor)
+                : convertNumber(valor)}
             </Typography>
           </Stack>
         </Stack>

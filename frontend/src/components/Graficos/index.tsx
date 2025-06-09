@@ -13,7 +13,71 @@ export default function Grafico({ type, title, data }: GraficoProps) {
     const textColor = resolvedMode === "dark" ? "#fff" : "#000";
 
     switch (type) {
-      case "pie":
+      case "line":
+        return {
+          xAxis: {
+            type: "category",
+            boundaryGap: false,
+            data: data.map((item) => item.name),
+          },
+          yAxis: {
+            type: "value",
+            axisLabel: {
+              color: textColor,
+              formatter: (value: number) =>
+                value.toLocaleString("pt-BR", {
+                  style: "currency",
+                  currency: "BRL",
+                  minimumFractionDigits: 2,
+                }),
+            },
+          },
+          title: {
+            text: title,
+            left: "center",
+            textStyle: { color: textColor },
+          },
+          tooltip: {
+            trigger: "item",
+            formatter: (params: any) =>
+              `${params.value.toLocaleString("pt-BR", {
+                style: "currency",
+                currency: "BRL",
+              })}`,
+          },
+          legend: {
+            bottom: 10,
+            left: "center",
+            textStyle: { color: textColor },
+          },
+          series: [
+            {
+              name: title,
+              type: "line",
+              smooth: true,
+              areaStyle: {},
+              data: data.map((item) => item.value),
+              label: {
+                show: true,
+                position: "top",
+                color: textColor,
+                formatter: (params: any) =>
+                  params.value.toLocaleString("pt-BR", {
+                    style: "currency",
+                    currency: "BRL",
+                    minimumFractionDigits: 2,
+                  }),
+              },
+              emphasis: {
+                itemStyle: {
+                  shadowBlur: 10,
+                  shadowOffsetX: 0,
+                  shadowColor: "rgba(0, 0, 0, 0.5)",
+                },
+              },
+            },
+          ],
+        };
       case "doughnut":
         return {
           title: {
