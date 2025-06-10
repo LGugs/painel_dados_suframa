@@ -2,6 +2,7 @@ export interface GraficoData {
   name: string;
   value: number;
   itemStyle?: { color: string };
+  polo?: string;
 }
 
 export interface GraficoProps {

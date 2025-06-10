@@ -6,12 +6,8 @@ import { alpha } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
-//import AppNavbar from './components/AppNavbar';
 import Copyright from "../../components/Copyright";
 import Header from "../../components/Header";
-//import MainGrid from './components/MainGrid';
-//import SideMenu from './components/SideMenu';
-//import Dashboard from '../../components/Dashboard';
 import AppTheme from "../../theme/AppTheme";
 import {
   dataGridCustomizations,
@@ -63,10 +59,10 @@ export default function MainPage(props: { disableCustomTheme?: boolean }) {
               spacing={4}
               sx={{ width: "100%", flexWrap: "wrap" }}
             >
-              <Box id="vish1" sx={{ flex: 1, minWidth: 400 }}>
+              <Box sx={{ flex: 1, minWidth: 400 }}>
                 <DashboardPage tipo="Faturamento" />
               </Box>
-              <Box id="vish2" sx={{ flex: 1, minWidth: 400 }}>
+              <Box sx={{ flex: 1, minWidth: 400 }}>
                 <DashboardPage tipo="Mão de Obra" />
               </Box>
               <Stack

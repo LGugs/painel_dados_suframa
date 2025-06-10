@@ -5,7 +5,7 @@ export interface DashboardState {
 }
 
 const initialState: DashboardState = {
-  title: "Acumulado",
+  title: "TODOS OS POLOS",
 };
 
 const DashboardSlice = createSlice({

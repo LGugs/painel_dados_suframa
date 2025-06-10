@@ -5,4 +5,5 @@ export interface CardProps {
   valor: number;
   sx?: SxProps<Theme>;
   tipo?: string;
+  polo?: string;
 }
