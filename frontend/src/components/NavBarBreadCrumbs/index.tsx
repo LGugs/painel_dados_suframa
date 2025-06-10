@@ -18,7 +18,7 @@ const StyledBreadcrumbs = styled(Breadcrumbs)(({ theme }) => ({
 }));
 
 export default function NavbarBreadcrumbs() {
-  const titulo = useAppSelector((state) => state.DashboardReducer.title);
+  const titulo = useAppSelector((state) => state.DashboardReducer.descricao);
 
   return (
     <StyledBreadcrumbs

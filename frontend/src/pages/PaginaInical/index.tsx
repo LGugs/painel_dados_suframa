@@ -15,6 +15,7 @@ import {
   treeViewCustomizations,
 } from "../../theme/customizations";
 import DashboardPage from "../../pages/DashboardPage/";
+import { useAppSelector } from "../../redux/hooks";
 
 const xThemeComponents = {
   ...dataGridCustomizations,
@@ -23,6 +24,8 @@ const xThemeComponents = {
 };
 
 export default function MainPage(props: { disableCustomTheme?: boolean }) {
+  const poloId = useAppSelector((state) => state.DashboardReducer.id);
+
   return (
     <AppTheme {...props} themeComponents={xThemeComponents}>
       <CssBaseline enableColorScheme />
@@ -60,10 +63,10 @@ export default function MainPage(props: { disableCustomTheme?: boolean }) {
               sx={{ width: "100%", flexWrap: "wrap" }}
             >
               <Box sx={{ flex: 1, minWidth: 400 }}>
-                <DashboardPage tipo="Faturamento" />
+                <DashboardPage tipo="Faturamento" polo={poloId} />
               </Box>
               <Box sx={{ flex: 1, minWidth: 400 }}>
-                <DashboardPage tipo="Mão de Obra" />
+                <DashboardPage tipo="Mão de Obra" polo={poloId} />
               </Box>
               <Stack
                 direction="row"

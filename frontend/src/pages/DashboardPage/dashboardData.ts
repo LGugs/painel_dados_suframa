@@ -2,11 +2,11 @@ import type { DashboardTypes } from "../../interfaces/Dashboard";
 import { getCards } from "../../services/cards.service";
 import { getGrafico } from "../../services/grafico.service";
 
-export async function getDashboardData(tipo: string): Promise<DashboardTypes> {
+export async function getDashboardData(tipo: string, polo: string): Promise<DashboardTypes> {
   try {
     const [cardData, graficoData] = await Promise.all([
-      getCards(tipo),
-      getGrafico(tipo),
+      getCards(tipo, polo),
+      getGrafico(tipo, polo),
     ]);
 
     //console.log("HELLO!! " + graficoData);
@@ -32,7 +32,7 @@ export async function getDashboardData(tipo: string): Promise<DashboardTypes> {
       cards: [],
       graficos: {
         type: "bar",
-        title: "Erro ao carregar",
+        title: "Polo selecionado não possui dados para exibir!",
         data: [],
       },
     };

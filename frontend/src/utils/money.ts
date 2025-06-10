@@ -1,5 +1,8 @@
-export function convertNumber(valor: number): string {
-  const formatter = new Intl.NumberFormat("pt-BR");
+export function convertNumber(valor: number, decimais: number = 0): string {
+  const formatter = new Intl.NumberFormat("pt-BR", {
+    minimumFractionDigits: decimais,
+    maximumFractionDigits: decimais,
+  });
   return formatter.format(valor);
 }
 

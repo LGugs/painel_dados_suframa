@@ -8,8 +8,8 @@ export default function Dashboard(data: DashboardTypes) {
   const cardsPorColuna = 3;
   const colunas: DashboardTypes["cards"][] = [];
 
-  for (let i = 0; i < data.cards.length; i += cardsPorColuna) {
-    colunas.push(data.cards.slice(i, i + cardsPorColuna));
+  for (let i = 0; i < data.cards!.length; i += cardsPorColuna) {
+    colunas.push(data.cards!.slice(i, i + cardsPorColuna));
   }
 
   return (
@@ -36,7 +36,7 @@ export default function Dashboard(data: DashboardTypes) {
         <Box display={"flex"} gap={2} flexWrap={"wrap"}>
           {colunas.map((coluna, colIndex) => (
             <Stack key={colIndex} spacing={2}>
-              {coluna.map((card, index) => (
+              {coluna!.map((card, index) => (
                 <CustomCard
                   key={index}
                   {...card}

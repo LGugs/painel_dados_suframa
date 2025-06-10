@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { Typography, ToggleButtonGroup } from "@mui/material";
-import { Stack } from "@mui/material";
+import { Typography, ToggleButtonGroup, Stack, Tooltip } from "@mui/material";
 import { polos } from "../../interfaces/Polos";
 import { CustomToggleButton } from "./CustomToggleButton";
 import { setDashPolo } from "../../redux/slices/dashboard.slice";
@@ -15,14 +14,16 @@ const PolosToggleGroup = () => {
     polos.slice(i * 6, i * 6 + 6)
   );
 
+  // no lugar do event, foi colocado _ para que não tenha warning ao buildar
   const handleChange = (
-    event: React.MouseEvent<HTMLElement>,
+    _: React.MouseEvent<HTMLElement>,
     newPolo: number | ""
   ) => {
     const poloSelecionado = polos.find((p) => p.id === newPolo);
     const descricao = poloSelecionado?.descricao || "TODOS OS POLOS";
+    const id = poloSelecionado?.id || "";
 
-    dispatch(setDashPolo({ title: descricao.toUpperCase() }));
+    dispatch(setDashPolo({ descricao: descricao.toUpperCase(), id: id }));
     setSelectedPolo(newPolo);
   };
 
@@ -47,11 +48,14 @@ const PolosToggleGroup = () => {
           }}
         >
           {grupo.map((polo) => (
-            <CustomToggleButton key={polo.id} value={polo.id}>
-              <Typography fontWeight="bold">
-                {polo.descricao.toUpperCase()}
-              </Typography>
-            </CustomToggleButton>
+            
+            <Tooltip title={polo.descricao.toUpperCase()}>
+              <CustomToggleButton key={polo.id} value={polo.id} sx={{ maxWidth: "100%", overflow: "hidden" }}>
+                <Typography fontWeight="bold" noWrap sx={{ textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap"}}>
+                  {polo.descricao.toUpperCase()}
+                </Typography>
+              </CustomToggleButton>
+            </Tooltip>
           ))}
         </ToggleButtonGroup>
       ))}

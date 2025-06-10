@@ -17,7 +17,7 @@ export default function Grafico({ type, title, data }: GraficoProps) {
       case "line":
         return {
           grid: {
-            left: 60, // espaço para os labels do eixo Y
+            left: 100, // espaço para os labels do eixo Y
             right: 60,
             top: 40,
             bottom: 40,
@@ -111,6 +111,7 @@ export default function Grafico({ type, title, data }: GraficoProps) {
         return {
           title: {
             text: title,
+            left: "center",
             textStyle: { color: textColor },
           },
           xAxis: {

@@ -26,7 +26,7 @@ export default function CustomCard({ tipo, titulo, valor, sx }: CardProps) {
             <Typography
               component="p"
               sx={{
-                fontSize: valor > 1000000000 ? "1rem" : "1.25rem",
+                fontSize: valor > 1000000000 ? "0.9rem" : "1.1rem",
                 fontWeight: 600,
                 whiteSpace: "nowrap",
                 overflow: "hidden",
@@ -34,7 +34,7 @@ export default function CustomCard({ tipo, titulo, valor, sx }: CardProps) {
               }}
             >
               {tipo === "Faturamento"
-                ? `R$ ${convertNumber(valor)}`
+                ? `R$ ${convertNumber(valor,2)}`
                 : convertNumber(valor)}
             </Typography>
           </Stack>
