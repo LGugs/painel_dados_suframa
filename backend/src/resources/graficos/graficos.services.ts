@@ -5,19 +5,30 @@ import { MaoDeObra, Faturamento } from "./graficos.types";
 //#region GRAFICO - FATURAMENTO
 export async function faturamentoGrafico(
   mes: string,
-  ano: string
+  ano: string,
+  polo?:string
 ): Promise<Result<Faturamento> | null> {
   if (ano === undefined || mes === undefined) return null; // segurança caso não passe parametros obrigatorios
 
   let conn: Connection;
 
+  let query = `SELECT ima.AMD2_MES_REFERENCIA MES, SUM(AMD2_FATURAMENTO_TOTAL) TOTAL
+      FROM INDPORTAL.IND_MODELO_02_AGREG ima
+      WHERE ima.amd2_ano_referencia = :ano AND ima.AMD2_MES_REFERENCIA <= :mes`;
+
+  const bindParams: Record<string, any> = { ano, mes };
+
+  if (polo) {
+    query += " AND ima.amd2_sset_codigo = :polo";
+    bindParams.polo = polo;
+  }
+
+  query += " GROUP BY ima.AMD2_MES_REFERENCIA ORDER BY ima.AMD2_MES_REFERENCIA"
+
   conn = await getConnection();
   const result = await conn.execute<Faturamento>(
-    `SELECT ima.AMD2_MES_REFERENCIA MES, SUM(AMD2_FATURAMENTO_TOTAL) TOTAL
-      FROM INDPORTAL.IND_MODELO_02_AGREG ima
-      WHERE ima.amd2_ano_referencia = :ano AND ima.AMD2_MES_REFERENCIA <= :mes
-		  GROUP BY ima.AMD2_MES_REFERENCIA`,
-    { ano, mes },
+    query,
+    bindParams,
     { outFormat: oracledb.OUT_FORMAT_OBJECT } // evitar injection
   );
 
@@ -31,20 +42,31 @@ export async function faturamentoGrafico(
 //#region GRAFICO - MÃO DE OBRA
 export async function maoDeObraGrafico(
   mes: string,
-  ano: string
+  ano: string,
+  polo?: string
 ): Promise<Result<MaoDeObra> | null> {
   if (ano === undefined || mes === undefined) return null; // segurança caso não passe parametros obrigatorios
 
   let conn: Connection;
 
   conn = await getConnection();
-  const result = await conn.execute<MaoDeObra>(
-    `SELECT SUM(ima.AMD1_QTDE_TOTAL) TOTAL_DIRETA,
+
+  let query = `SELECT SUM(ima.AMD1_QTDE_TOTAL) TOTAL_DIRETA,
       SUM(ima.AMD1_QTDE_PNE) PNE, SUM(ima.AMD1_QTDE_TEMPORARIA) TEMPORARIA,
       SUM(ima.AMD1_QTDE_TERCEIROS) TERCEIRIZADA
       FROM INDPORTAL.IND_MODELO_01_AGREG ima
-      WHERE amd1_ano_referencia = :ano AND amd1_mes_referencia = :mes`,
-    { ano, mes },
+      WHERE amd1_ano_referencia = :ano AND amd1_mes_referencia = :mes`;
+
+  const bindParams: Record<string, any> = { ano, mes };
+
+  if (polo) {
+    query += " AND ima.amd1_sset_codigo = :polo";
+    bindParams.polo = polo;
+  }  
+
+  const result = await conn.execute<MaoDeObra>(
+    query,
+    bindParams,
     { outFormat: oracledb.OUT_FORMAT_OBJECT } // evitar injection
   );
 

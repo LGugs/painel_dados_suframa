@@ -13,5 +13,5 @@ export interface MaoDeObra {
   TOTAL_DIRETA: number;
   TEMPORARIA: number;
   TERCEIRIZADA: number;
-  TOTAL_INDIRETA: number;
+  TOTAL: number;
 }

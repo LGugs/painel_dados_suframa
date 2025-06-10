@@ -10,7 +10,7 @@ import { MaoDeObra, Cards } from "./cards.types";
 
 async function getCards(req: Request, res: Response): Promise<any> {
   const tipo = req.query.tipo;
-  const polo = req.query.polo; // opcional
+  const polo = req.query.polo as string | undefined; // opcional
   const mesValido: MesPassado = getDoisMesesAnteriores();
   const ano = new Date().getFullYear();
   const anoPassado = ano - 1;
@@ -19,21 +19,16 @@ async function getCards(req: Request, res: Response): Promise<any> {
   if (tipo === "Faturamento") {
     try {
       const [totalAnual, totalUltMes, totalAnoAnt] = await Promise.all([
-        faturamentoTotalCard(ano.toString()),
-        faturamentoUltMesCard(mesValido.mes, mesValido.ano),
-        faturamentoTotalCard(anoPassado.toString()),
+        faturamentoTotalCard(ano.toString(), polo),
+        faturamentoUltMesCard(mesValido.mes, mesValido.ano, polo),
+        faturamentoTotalCard(anoPassado.toString(), polo),
       ]);
 
+      // rows? é para não dar erros com undefined
       if (
-        !totalAnual ||
-        !totalAnual.rows ||
-        totalAnual.rows.length === 0 ||
-        !totalUltMes ||
-        !totalUltMes.rows ||
-        totalUltMes.rows.length === 0 ||
-        !totalAnoAnt ||
-        !totalAnoAnt.rows ||
-        totalAnoAnt.rows.length === 0
+        !totalAnual || !totalAnual.rows?.length ||
+        !totalUltMes || !totalUltMes.rows?.length ||
+        !totalAnoAnt || !totalAnoAnt.rows?.length
       ) {
         return res.status(404).send({
           message:
@@ -62,10 +57,11 @@ async function getCards(req: Request, res: Response): Promise<any> {
     try {
       const resultado: Result<MaoDeObra> | null = await maoDeObraCards(
         mesValido.mes,
-        mesValido.ano
+        mesValido.ano,
+        polo
       );
 
-      if (!resultado || !resultado.rows || resultado.rows.length === 0) {
+      if (!resultado || !resultado.rows?.length) {
         return res.status(404).send({
           message:
             "Não existe mão de obra cadastrada para o ano/mês selecionado!",
@@ -75,10 +71,10 @@ async function getCards(req: Request, res: Response): Promise<any> {
       const dados = resultado.rows[0]; // sempre terá apenas uma linha
 
       const cards: Cards[] = [
-        { titulo: "DIRETA", valor: dados.TOTAL_DIRETA ?? 0 },
+        { titulo: "TOTAL", valor: dados.TOTAL ?? 0 },
         { titulo: "FEMININA", valor: dados.FEMININA ?? 0 },
         { titulo: "PNE", valor: dados.PNE ?? 0 },
-        { titulo: "INDIRETA", valor: dados.TOTAL_INDIRETA ?? 0 },
+        { titulo: "DIRETA", valor: dados.TOTAL_DIRETA ?? 0 },
         { titulo: "TEMPORÁRIA", valor: dados.TEMPORARIA ?? 0 },
         { titulo: "TERCEIRIZADA", valor: dados.TERCEIRIZADA ?? 0 },
       ];
