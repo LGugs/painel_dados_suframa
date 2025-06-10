@@ -19,8 +19,9 @@ export interface Faturamento {
 }
 
 export interface MaoDeObra {
-  FEMININA: number;
-  MASCULINA: number;
+  TOTAL_DIRETA: number;
+  TEMPORARIA: number;
+  TERCEIRIZADA: number;
 }
 
 export interface Graficos {

@@ -51,8 +51,9 @@ export async function getGrafico(req: Request, res: Response): Promise<any> {
       const dados = resultado.rows[0]; // sempre terá apenas uma linha
 
       const cards: Graficos[] = [
-        { name: "MASCULINA", value: dados.MASCULINA ?? 0 },
-        { name: "FEMININA", value: dados.FEMININA ?? 0 },
+        { name: "DIRETA", value: dados.TOTAL_DIRETA ?? 0 },
+        { name: "TEMPORÁRIA", value: dados.TEMPORARIA ?? 0 },
+        { name: "TERCEIRIZADA", value: dados.TERCEIRIZADA ?? 0 },
       ];
 
       return res.status(200).json(cards);

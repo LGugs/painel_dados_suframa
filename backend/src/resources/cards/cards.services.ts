@@ -5,20 +5,41 @@ import { MaoDeObra, FaturamentoTotal } from "./cards.types";
 //#region FATURAMENTO
 // CARD - TOTAL e ULTIMO ANO
 export async function faturamentoTotalCard(
-  ano: string
+  ano: string,
+  polo?: string
 ): Promise<Result<FaturamentoTotal> | null> {
   if (ano === undefined) return null; // segurança caso não passe parametros obrigatorios
 
   let conn: Connection;
 
   conn = await getConnection();
+
+  let query = `SELECT SUM(AMD2_FATURAMENTO_TOTAL) "TOTAL" 
+      FROM INDPORTAL.IND_MODELO_02_AGREG ima
+      WHERE amd2_ano_referencia = :ano`;
+
+  const bindParams: Record<string, any> = { ano };
+
+  if (polo) {
+    query += " AND amd2_sset_codigo = :polo";
+    bindParams.polo = polo;
+  }
+
+  // este formato:
+  const result = await conn.execute<FaturamentoTotal>(
+    query, // query
+    bindParams, // os parametros que desejo encaminhar
+    { outFormat: oracledb.OUT_FORMAT_OBJECT } // evitar injection
+  );
+
+  /* substitui este. 
   const result = await conn.execute<FaturamentoTotal>(
     `SELECT SUM(AMD2_FATURAMENTO_TOTAL) "TOTAL" 
       FROM INDPORTAL.IND_MODELO_02_AGREG ima
       WHERE amd2_ano_referencia = :ano`,
     { ano },
     { outFormat: oracledb.OUT_FORMAT_OBJECT } // evitar injection
-  );
+  );*/
 
   conn.close();
 
@@ -61,7 +82,11 @@ export async function maoDeObraCards(
 
   conn = await getConnection();
   const result = await conn.execute<MaoDeObra>(
-    `SELECT SUM(ima.AMD1_QTDE_TOTAL) TOTAL, SUM(ima.AMD1_QTDE_FEMININA) Feminina, SUM(ima.AMD1_QTDE_PNE) PNE
+    `SELECT SUM(ima.AMD1_QTDE_FEMININA) FEMININA,
+     SUM(ima.AMD1_QTDE_PNE) PNE, SUM(ima.AMD1_QTDE_TEMPORARIA) TEMPORARIA,
+     SUM(ima.AMD1_QTDE_TERCEIROS) TERCEIRIZADA, 
+     SUM(ima.AMD1_QTDE_TERCEIROS+ima.AMD1_QTDE_TEMPORARIA) TOTAL_INDIRETA,
+     SUM(ima.AMD1_QTDE_TOTAL) TOTAL_DIRETA
      FROM INDPORTAL.IND_MODELO_01_AGREG ima
     WHERE amd1_ano_referencia = :ano AND amd1_mes_referencia = :mes`,
     { ano, mes },

@@ -8,8 +8,9 @@ import { getDoisMesesAnteriores, type MesPassado } from "../../utils/ultMes";
 import { Result } from "oracledb";
 import { MaoDeObra, Cards } from "./cards.types";
 
-async function getMaoDeObraCards(req: Request, res: Response): Promise<any> {
+async function getCards(req: Request, res: Response): Promise<any> {
   const tipo = req.query.tipo;
+  const polo = req.query.polo; // opcional
   const mesValido: MesPassado = getDoisMesesAnteriores();
   const ano = new Date().getFullYear();
   const anoPassado = ano - 1;
@@ -45,10 +46,10 @@ async function getMaoDeObraCards(req: Request, res: Response): Promise<any> {
       const totalAnoPassado = totalAnoAnt.rows[0];
 
       const cards: Cards[] = [
-        { titulo: "TOTAL", valor: totalAno.TOTAL ?? 0 },
-        { titulo: "MÊS INFORMADO", valor: totalMes.TOTAL ?? 0 },
+        { titulo: "TOTAL DO ANO ATUAL", valor: totalAno.TOTAL ?? 0 },
+        { titulo: "ULT. MÊS INFORMADO", valor: totalMes.TOTAL ?? 0 },
         {
-          titulo: "ANO PASSADO " + anoPassado,
+          titulo: "ANO PASSADO (" + anoPassado + ")",
           valor: totalAnoPassado.TOTAL ?? 0,
         },
       ];
@@ -74,9 +75,12 @@ async function getMaoDeObraCards(req: Request, res: Response): Promise<any> {
       const dados = resultado.rows[0]; // sempre terá apenas uma linha
 
       const cards: Cards[] = [
-        { titulo: "TOTAL", valor: dados.TOTAL ?? 0 },
+        { titulo: "DIRETA", valor: dados.TOTAL_DIRETA ?? 0 },
         { titulo: "FEMININA", valor: dados.FEMININA ?? 0 },
         { titulo: "PNE", valor: dados.PNE ?? 0 },
+        { titulo: "INDIRETA", valor: dados.TOTAL_INDIRETA ?? 0 },
+        { titulo: "TEMPORÁRIA", valor: dados.TEMPORARIA ?? 0 },
+        { titulo: "TERCEIRIZADA", valor: dados.TERCEIRIZADA ?? 0 },
       ];
 
       return res.status(200).json(cards);
@@ -88,4 +92,4 @@ async function getMaoDeObraCards(req: Request, res: Response): Promise<any> {
   }
 }
 
-export { getMaoDeObraCards };
+export { getCards };

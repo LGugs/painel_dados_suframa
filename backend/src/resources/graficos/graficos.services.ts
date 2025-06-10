@@ -39,8 +39,9 @@ export async function maoDeObraGrafico(
 
   conn = await getConnection();
   const result = await conn.execute<MaoDeObra>(
-    `SELECT (SUM(ima.AMD1_QTDE_TOTAL)-SUM(ima.AMD1_QTDE_FEMININA)) Masculina,
-      SUM(ima.AMD1_QTDE_FEMININA) Feminina
+    `SELECT SUM(ima.AMD1_QTDE_TOTAL) TOTAL_DIRETA,
+      SUM(ima.AMD1_QTDE_PNE) PNE, SUM(ima.AMD1_QTDE_TEMPORARIA) TEMPORARIA,
+      SUM(ima.AMD1_QTDE_TERCEIROS) TERCEIRIZADA
       FROM INDPORTAL.IND_MODELO_01_AGREG ima
       WHERE amd1_ano_referencia = :ano AND amd1_mes_referencia = :mes`,
     { ano, mes },
