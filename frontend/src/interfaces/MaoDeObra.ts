@@ -1,6 +1,8 @@
 export interface MaoDeObraCard {
+  DIRETA: number;
   FEMININA: number;
   PNE: number;
-  TOTAL: number;
-  data?: MaoDeObraCard[];
+  INDIRETA: number;
+  TEMPORÁRIA: number;
+  TERCEIRIZADA: number;
 }

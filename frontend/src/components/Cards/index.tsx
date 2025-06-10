@@ -1,9 +1,6 @@
 //import * as React from 'react';
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
-import convertNumber from "../../utils/money";
+import { Typography, Stack, CardContent, Card } from "@mui/material";
+import { convertNumber } from "../../utils/money";
 import { type CardProps } from "../../interfaces/Cards";
 
 export default function CustomCard({ tipo, titulo, valor, sx }: CardProps) {
@@ -26,9 +23,18 @@ export default function CustomCard({ tipo, titulo, valor, sx }: CardProps) {
           sx={{ justifyContent: "space-between", flexGrow: "1", gap: 1 }}
         >
           <Stack sx={{ justifyContent: "space-between" }}>
-            <Typography variant="h4" component="p">
+            <Typography
+              component="p"
+              sx={{
+                fontSize: valor > 1000000000 ? "1rem" : "1.25rem",
+                fontWeight: 600,
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }}
+            >
               {tipo === "Faturamento"
-                ? "R$ " + convertNumber(valor)
+                ? `R$ ${convertNumber(valor)}`
                 : convertNumber(valor)}
             </Typography>
           </Stack>

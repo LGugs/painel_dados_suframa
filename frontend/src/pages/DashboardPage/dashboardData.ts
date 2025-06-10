@@ -9,7 +9,7 @@ export async function getDashboardData(tipo: string): Promise<DashboardTypes> {
       getGrafico(tipo),
     ]);
 
-    console.log("HELLO!! " + graficoData);
+    //console.log("HELLO!! " + graficoData);
 
     // Só para retornar os valores com R$
     const cardsComTipo = cardData.map((card) => ({

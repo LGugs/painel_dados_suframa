@@ -3,6 +3,7 @@ import { useEffect, useMemo, useRef } from "react";
 import { useColorScheme } from "@mui/material/styles";
 import { type ECOption } from "../../interfaces/Echarts.types";
 import * as echarts from "echarts";
+import { convertNumber, reduzirValor } from "../../utils/money";
 
 export default function Grafico({ type, title, data }: GraficoProps) {
   const chartRef = useRef<HTMLDivElement>(null);
@@ -15,6 +16,12 @@ export default function Grafico({ type, title, data }: GraficoProps) {
     switch (type) {
       case "line":
         return {
+          grid: {
+            left: 60, // espaço para os labels do eixo Y
+            right: 60,
+            top: 40,
+            bottom: 40,
+          },
           xAxis: {
             type: "category",
             boundaryGap: false,
@@ -24,12 +31,7 @@ export default function Grafico({ type, title, data }: GraficoProps) {
             type: "value",
             axisLabel: {
               color: textColor,
-              formatter: (value: number) =>
-                value.toLocaleString("pt-BR", {
-                  style: "currency",
-                  currency: "BRL",
-                  minimumFractionDigits: 2,
-                }),
+              formatter: reduzirValor,
             },
           },
           title: {
@@ -39,11 +41,7 @@ export default function Grafico({ type, title, data }: GraficoProps) {
           },
           tooltip: {
             trigger: "item",
-            formatter: (params: any) =>
-              `${params.value.toLocaleString("pt-BR", {
-                style: "currency",
-                currency: "BRL",
-              })}`,
+            formatter: (params: any) => reduzirValor(params.value),
           },
           legend: {
             bottom: 10,
@@ -54,19 +52,13 @@ export default function Grafico({ type, title, data }: GraficoProps) {
             {
               name: title,
               type: "line",
-              smooth: true,
-              areaStyle: {},
+              smooth: false,
               data: data.map((item) => item.value),
               label: {
                 show: true,
                 position: "top",
                 color: textColor,
-                formatter: (params: any) =>
-                  params.value.toLocaleString("pt-BR", {
-                    style: "currency",
-                    currency: "BRL",
-                    minimumFractionDigits: 2,
-                  }),
+                formatter: (params: any) => reduzirValor(params.value),
               },
               emphasis: {
                 itemStyle: {
@@ -96,7 +88,9 @@ export default function Grafico({ type, title, data }: GraficoProps) {
           series: [
             {
               label: {
-                show: false,
+                show: true,
+                color: textColor,
+                formatter: (params: any) => convertNumber(params.value),
               },
               name: title,
               type: "pie",
