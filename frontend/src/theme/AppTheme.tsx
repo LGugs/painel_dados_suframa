@@ -7,6 +7,7 @@ import { feedbackCustomizations } from './customizations/feedback';
 import { navigationCustomizations } from './customizations/navigation';
 import { surfacesCustomizations } from './customizations/surfaces';
 import { colorSchemes, typography, shadows, shape } from './themePrimitives';
+import { stackCustomizations } from './customizations/stacks';
 
 interface AppThemeProps {
   children: React.ReactNode;
@@ -39,6 +40,7 @@ export default function AppTheme(props: AppThemeProps) {
             ...navigationCustomizations,
             ...surfacesCustomizations,
             ...themeComponents,
+            ...stackCustomizations
           },
         });
   }, [disableCustomTheme, themeComponents]);

@@ -28,7 +28,7 @@ const PolosToggleGroup = () => {
   };
 
   return (
-    <Stack spacing={2} width="100%">
+    <Stack spacing={2} width="100%" alignItems="center">
       {grupos.map((grupo, idx) => (
         <ToggleButtonGroup
           key={idx}
@@ -37,18 +37,17 @@ const PolosToggleGroup = () => {
           onChange={handleChange}
           fullWidth
           sx={{
-            display: "flex",
-            width: "100%",
-            gap: 0,
-            "& .MuiToggleButtonGroup-grouped:not(:first-of-type)": {
-              borderLeft: "none !important",
-            },
-            px: 0,
-            ml: 0,
-          }}
+        display: "flex",
+        width: "100%",
+        gap: 0,
+        "& .MuiToggleButtonGroup-grouped:not(:first-of-type)": {
+          borderLeft: "none !important",
+        },
+        px: 0,
+        ml: 0,
+      }}
         >
           {grupo.map((polo) => (
-            
             <Tooltip title={polo.descricao.toUpperCase()}>
               <CustomToggleButton key={polo.id} value={polo.id} sx={{ maxWidth: "100%", overflow: "hidden" }}>
                 <Typography fontWeight="bold" noWrap sx={{ textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap"}}>

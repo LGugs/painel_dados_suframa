@@ -26,7 +26,7 @@ export default function CustomCard({ tipo, titulo, valor, sx }: CardProps) {
             <Typography
               component="p"
               sx={{
-                fontSize: valor > 1000000000 ? "0.9rem" : "1.1rem",
+                fontSize: valor > 1000000 ? "0.7rem" : "0.9rem",
                 fontWeight: 600,
                 whiteSpace: "nowrap",
                 overflow: "hidden",

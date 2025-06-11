@@ -70,10 +70,9 @@ export default function MainPage(props: { disableCustomTheme?: boolean }) {
               </Box>
               <Stack
                 direction="row"
-                spacing={2}
                 flexWrap="wrap"
                 alignItems="stretch"
-                sx={{ width: "100%" }}
+                sx={{ width: "100%", ml: 0 }}
               >
                 <PolosToggleGroup />
               </Stack>

@@ -27,20 +27,15 @@ export default function Dashboard(data: DashboardTypes) {
       <Typography component="h1" variant="h6" fontWeight="bold" sx={{ mb: 2 }}>
         {data.tipo.toUpperCase()}
       </Typography>
-      <Stack
-        direction="row"
-        spacing={4}
-        alignItems={"flex-start"}
-        width={"100%"}
-      >
-        <Box display={"flex"} gap={2} flexWrap={"wrap"}>
+      <Box display="flex" gap={3} alignItems="flex-start" width="100%">
+        <Box display={"flex"} gap={1.5} flexWrap={"wrap"} sx={{ flexShrink: 0 }}>
           {colunas.map((coluna, colIndex) => (
             <Stack key={colIndex} spacing={2}>
               {coluna!.map((card, index) => (
                 <CustomCard
                   key={index}
                   {...card}
-                  sx={{ minHeight: 50, width: 200 }}
+                  sx={{ minHeight: 50, minWidth: 140, maxWidth: 160, flexShrink: 0 }}
                 />
               ))}
             </Stack>
@@ -49,15 +44,15 @@ export default function Dashboard(data: DashboardTypes) {
         {data.graficos && (
           <Box
             sx={{
-              flex: 1,
-              width: { xs: "100%", md: "60%" },
+              flexGrow: 1,
+              minWidth: 0,
               minHeight: 300,
             }}
           >
             <Grafico {...data.graficos} />
           </Box>
         )}
-      </Stack>
+      </Box>
     </Box>
   );
 }
