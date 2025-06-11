@@ -1,18 +1,22 @@
-// tipando corretamente os modulos do echart
-
-import type { ComposeOption } from 'echarts/core';
-import type { TitleComponentOption } from 'echarts/components';
-import type { TooltipComponentOption } from 'echarts/components';
-import type { LegendComponentOption } from 'echarts/components';
-import type { XAXisComponentOption, YAXisComponentOption } from 'echarts/components';
-import type { PieSeriesOption, BarSeriesOption } from 'echarts/charts';
+import type { ComposeOption } from "echarts/core";
+import type {
+  TitleComponentOption,
+  TooltipComponentOption,
+  LegendComponentOption,
+  GridComponentOption,
+} from "echarts/components";
+import type {
+  LineSeriesOption,
+  PieSeriesOption,
+  BarSeriesOption,
+} from "echarts/charts";
 
 export type ECOption = ComposeOption<
   | TitleComponentOption
   | TooltipComponentOption
   | LegendComponentOption
-  | XAXisComponentOption
-  | YAXisComponentOption
+  | GridComponentOption
+  | LineSeriesOption
   | PieSeriesOption
   | BarSeriesOption
 >;

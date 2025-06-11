@@ -10,12 +10,14 @@ export default function Grafico({ type, title, data }: GraficoProps) {
   const { mode, systemMode } = useColorScheme();
   const resolvedMode = mode === "system" ? systemMode : mode;
 
-  const getOption: ECOption = useMemo(() => {
+  const getOption = useMemo<ECOption>(() => {
     const textColor = resolvedMode === "dark" ? "#fff" : "#000";
+    const backgroundColor = "transparent";
 
     switch (type) {
       case "line":
         return {
+          backgroundColor,
           grid: {
             left: 100, // espaço para os labels do eixo Y
             right: 60,
@@ -72,6 +74,7 @@ export default function Grafico({ type, title, data }: GraficoProps) {
         };
       case "doughnut":
         return {
+          backgroundColor,
           title: {
             text: title,
             left: "center",
@@ -109,6 +112,7 @@ export default function Grafico({ type, title, data }: GraficoProps) {
       case "bar":
       default:
         return {
+          backgroundColor,
           title: {
             text: title,
             left: "center",
@@ -117,11 +121,11 @@ export default function Grafico({ type, title, data }: GraficoProps) {
           xAxis: {
             type: "category",
             data: data.map((d) => d.name),
-            textStyle: { color: textColor },
+            axisLabel: { color: textColor },
           },
           yAxis: {
             type: "value",
-            textStyle: { color: textColor },
+            axisLabel: { color: textColor },
           },
           legend: {
             textStyle: { color: textColor },
@@ -161,7 +165,7 @@ export default function Grafico({ type, title, data }: GraficoProps) {
     }
 
     chart = echarts.init(chartRef.current, theme);
-    chart.setOption(getOption);
+    chart.setOption(getOption as echarts.EChartsOption);
 
     const handleResize = () => chart.resize();
     window.addEventListener("resize", handleResize);

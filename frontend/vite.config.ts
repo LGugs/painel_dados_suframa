@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const PORT = parseInt(process.env.PORT_FRONT) || 9999;
+const PORT = process.env.PORT_FRONT ? parseInt(process.env.PORT_FRONT) : 9999;
 
 // https://vitejs.dev/config/
 export default defineConfig({
