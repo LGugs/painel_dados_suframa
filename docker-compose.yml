@@ -1,13 +1,13 @@
-version: "3.8"
 services:
   backend:
+    networks_mode: host
     container_name: painel_backend
     build:
       context: ./backend
     ports:
-      - ${PORT_BACK}:${PORT_BACK}
-    volumes:
-      - ./backend:/usr/src/app
+      - 3333:3333
+    #volumes: só em desenvolvimento
+    #  - ./backend:/usr/src/app
     env_file: ./backend/.env
 
   frontend:
@@ -15,7 +15,7 @@ services:
     build:
       context: ./frontend
     ports:
-      - ${PORT_FRONT}:${PORT_FRONT}
-    volumes:
-      - ./frontend:/usr/src/app
+      - 8080:80
+    #volumes: só em desenvolvimento
+    #  - ./frontend:/usr/src/app
     env_file: ./frontend/.env

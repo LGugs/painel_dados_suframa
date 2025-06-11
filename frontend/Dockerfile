@@ -1,12 +1,15 @@
-FROM node:20-alpine
+FROM node:22.16.0-alpine as build
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
-#COPY package.json /usr/src/app/package.json
-COPY . /usr/src/app
+COPY package.json ./
+COPY . .
 
-#RUN npm install 
+RUN npm install 
+RUN npm run build
 
-EXPOSE 5173 
+FROM httpd:2.4-alpine
 
-CMD ["npm", "run", "dev"]
+COPY --from=build /app/dist /usr/local/apache2/htdocs/
+
+EXPOSE 80
