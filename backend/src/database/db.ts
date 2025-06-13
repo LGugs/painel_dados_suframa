@@ -1,23 +1,12 @@
 import oracledb from "oracledb";
 import dotenv from "dotenv";
-import fs from "fs";
+
 
 dotenv.config();
 
 // CASO ESTEJA NO CONTAINER PARA QUE ELE RODE, SENÃO EXISTIR É QUE ESTAMOS EM DEV
-const oracleClientPath = "/opt/oracle/instantclient_21_10";
-
 console.log("LD_LIBRARY_PATH:", process.env.LD_LIBRARY_PATH);
 console.log("oracledb.oracleClientVersion:", oracledb.oracleClientVersion);
-
-if (fs.existsSync(oracleClientPath)) {
-  try {
-    oracledb.initOracleClient({ libDir: oracleClientPath });
-    console.log("Oracle Instant Client inicializado com sucesso.");
-  } catch (err) {
-    console.warn("Falha ao inicializar o Oracle Client:", err);
-  }
-}
 
 try {
   oracledb.initOracleClient({ libDir: process.env.LD_LIBRARY_PATH });
