@@ -3,7 +3,7 @@ services:
     container_name: painel_backend
     build:
       context: ./backend
-    #ports: 
+    #ports: removido por estar utilizando network_mode: host
     #  - 3333:3333
     #volumes: só em desenvolvimento
     #  - ./backend:/usr/src/app
@@ -15,7 +15,7 @@ services:
     build:
       context: ./frontend
     ports:
-      - 8080:80
+      - 80:8080
     #volumes: só em desenvolvimento
     #  - ./frontend:/usr/src/app
     env_file: ./frontend/.env
