@@ -7,6 +7,9 @@ dotenv.config();
 // CASO ESTEJA NO CONTAINER PARA QUE ELE RODE, SENÃO EXISTIR É QUE ESTAMOS EM DEV
 const oracleClientPath = "/opt/oracle/instantclient_21_10";
 
+console.log("LD_LIBRARY_PATH:", process.env.LD_LIBRARY_PATH);
+console.log("oracledb.oracleClientVersion:", oracledb.oracleClientVersion);
+
 if (fs.existsSync(oracleClientPath)) {
   try {
     oracledb.initOracleClient({ libDir: oracleClientPath });
@@ -14,6 +17,13 @@ if (fs.existsSync(oracleClientPath)) {
   } catch (err) {
     console.warn("Falha ao inicializar o Oracle Client:", err);
   }
+}
+
+try {
+  oracledb.initOracleClient({ libDir: process.env.LD_LIBRARY_PATH });
+  console.log("Oracle Instant Client carregado com sucesso");
+} catch (e) {
+  console.warn("Falha ao inicializar o Oracle Client (pode não ser necessário):", e);
 }
 
 export async function getConnection() {
