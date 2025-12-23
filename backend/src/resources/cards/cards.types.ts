@@ -4,9 +4,10 @@ export interface Cards {
   valor: number;
 }
 
-export interface FaturamentoTotal {
+export interface Total {
   TOTAL: number;
 }
+
 export interface MaoDeObra {
   FEMININA: number;
   PNE: number;

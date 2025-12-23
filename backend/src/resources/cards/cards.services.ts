@@ -1,13 +1,13 @@
 import oracledb, { Connection, Result } from "oracledb";
 import { getConnection } from "../../database/db";
-import { MaoDeObra, FaturamentoTotal } from "./cards.types";
+import { MaoDeObra, Total } from "./cards.types";
 
 //#region FATURAMENTO
 // CARD - TOTAL e ULTIMO ANO
 export async function faturamentoTotalCard(
   ano: string,
   polo?: string
-): Promise<Result<FaturamentoTotal> | null> {
+): Promise<Result<Total> | null> {
   if (ano === undefined) return null; // segurança caso não passe parametros obrigatorios
 
   let conn: Connection;
@@ -26,7 +26,7 @@ export async function faturamentoTotalCard(
   }
 
   // este formato:
-  const result = await conn.execute<FaturamentoTotal>(
+  const result = await conn.execute<Total>(
     query, // query
     bindParams, // os parametros que desejo encaminhar
     { outFormat: oracledb.OUT_FORMAT_OBJECT } // evitar injection
@@ -51,7 +51,7 @@ export async function faturamentoUltMesCard(
   mes: string,
   ano: string,
   polo?: string
-): Promise<Result<FaturamentoTotal> | null> {
+): Promise<Result<Total> | null> {
   if (ano === undefined || mes === undefined) return null; // segurança caso não passe parametros obrigatorios
 
   let conn: Connection;
@@ -69,7 +69,7 @@ export async function faturamentoUltMesCard(
     bindParams.polo = polo;
   }
 
-  const result = await conn.execute<FaturamentoTotal>(
+  const result = await conn.execute<Total>(
     query,
     bindParams,
     { outFormat: oracledb.OUT_FORMAT_OBJECT } // evitar injection
@@ -111,6 +111,76 @@ export async function maoDeObraCards(
   }
 
   const result = await conn.execute<MaoDeObra>(
+    query,
+    bindParams,
+    { outFormat: oracledb.OUT_FORMAT_OBJECT } // evitar injection
+  );
+
+  conn.close();
+
+  return result;
+}
+
+//#endregion
+//#region INVESTIMENTO
+// CARD - TOTAL e ULTIMO ANO
+export async function investimentoTotalCard(
+  ano: string,
+  polo?: string
+): Promise<Result<Total> | null> {
+  if (ano === undefined) return null; // segurança caso não passe parametros obrigatorios
+
+  let conn: Connection;
+
+  conn = await getConnection();
+
+  let query = `SELECT SUM(AMD1_INVEST_TOTAL) "TOTAL" 
+      FROM INDPORTAL.IND_MODELO_01_AGREG ima
+      WHERE amd1_ano_referencia = :ano`;
+
+  const bindParams: Record<string, any> = { ano };
+
+  if (polo) {
+    query += " AND amd1_sset_codigo = :polo";
+    bindParams.polo = polo;
+  }
+
+  // este formato:
+  const result = await conn.execute<Total>(
+    query, // query
+    bindParams, // os parametros que desejo encaminhar
+    { outFormat: oracledb.OUT_FORMAT_OBJECT } // evitar injection
+  );
+
+  conn.close();
+
+  return result;
+}
+
+// CARD - ULTIMO MES INFORMADO
+export async function investimentoUltMesCard(
+  mes: string,
+  ano: string,
+  polo?: string
+): Promise<Result<Total> | null> {
+  if (ano === undefined || mes === undefined) return null; // segurança caso não passe parametros obrigatorios
+
+  let conn: Connection;
+
+  conn = await getConnection();
+
+  let query = `SELECT SUM(AMD1_INVEST_TOTAL) "TOTAL"
+      FROM INDPORTAL.IND_MODELO_01_AGREG ima
+      WHERE ima.amd1_ano_referencia = :ano AND ima.AMD1_MES_REFERENCIA = :mes`
+
+  const bindParams: Record<string, any> = { ano, mes };
+
+  if (polo) {
+    query += " AND amd1_sset_codigo = :polo";
+    bindParams.polo = polo;
+  }
+
+  const result = await conn.execute<Total>(
     query,
     bindParams,
     { outFormat: oracledb.OUT_FORMAT_OBJECT } // evitar injection

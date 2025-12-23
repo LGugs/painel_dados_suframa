@@ -3,6 +3,8 @@ import {
   maoDeObraCards,
   faturamentoTotalCard,
   faturamentoUltMesCard,
+  investimentoTotalCard,
+  investimentoUltMesCard,
 } from "./cards.services";
 import { getDoisMesesAnteriores, type MesPassado } from "../../utils/ultMes";
 import { Result } from "oracledb";
@@ -77,6 +79,43 @@ async function getCards(req: Request, res: Response): Promise<any> {
         { titulo: "DIRETA", valor: dados.TOTAL_DIRETA ?? 0 },
         { titulo: "TEMPORÁRIA", valor: dados.TEMPORARIA ?? 0 },
         { titulo: "TERCEIRIZADA", valor: dados.TERCEIRIZADA ?? 0 },
+      ];
+
+      return res.status(200).json(cards);
+    } catch (error) {
+      return res.status(500).json(error);
+    }
+  } else if (tipo === "Investimento") {
+    try {
+      const [totalAnual, totalUltMes, totalAnoAnt] = await Promise.all([
+        investimentoTotalCard(ano.toString(), polo),
+        investimentoUltMesCard(mesValido.mes, mesValido.ano, polo),
+        investimentoTotalCard(anoPassado.toString(), polo),
+      ]);
+
+      // rows? é para não dar erros com undefined
+      if (
+        !totalAnual || !totalAnual.rows?.length ||
+        !totalUltMes || !totalUltMes.rows?.length ||
+        !totalAnoAnt || !totalAnoAnt.rows?.length
+      ) {
+        return res.status(404).send({
+          message:
+            "Não existe investimento cadastrado para o ano/mês selecionado!",
+        });
+      }
+
+      const totalAno = totalAnual.rows[0]; // sempre terá apenas uma linha
+      const totalMes = totalUltMes.rows[0];
+      const totalAnoPassado = totalAnoAnt.rows[0];
+
+      const cards: Cards[] = [
+        { titulo: "TOTAL DO ANO ATUAL", valor: totalAno.TOTAL ?? 0 },
+        { titulo: "ULT. MÊS INFORMADO", valor: totalMes.TOTAL ?? 0 },
+        {
+          titulo: "ANO PASSADO (" + anoPassado + ")",
+          valor: totalAnoPassado.TOTAL ?? 0,
+        },
       ];
 
       return res.status(200).json(cards);

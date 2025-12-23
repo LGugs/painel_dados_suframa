@@ -13,7 +13,7 @@ export const Meses = [
   "DEZEMBRO",
 ];
 
-export interface Faturamento {
+export interface Periodo {
   MES: number;
   TOTAL: number;
 }

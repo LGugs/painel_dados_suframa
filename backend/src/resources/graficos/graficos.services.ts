@@ -1,13 +1,13 @@
 import oracledb, { Connection, Result } from "oracledb";
 import { getConnection } from "../../database/db";
-import { MaoDeObra, Faturamento } from "./graficos.types";
+import { MaoDeObra, Periodo } from "./graficos.types";
 
 //#region GRAFICO - FATURAMENTO
 export async function faturamentoGrafico(
   mes: string,
   ano: string,
   polo?:string
-): Promise<Result<Faturamento> | null> {
+): Promise<Result<Periodo> | null> {
   if (ano === undefined || mes === undefined) return null; // segurança caso não passe parametros obrigatorios
 
   let conn: Connection;
@@ -26,7 +26,7 @@ export async function faturamentoGrafico(
   query += " GROUP BY ima.AMD2_MES_REFERENCIA ORDER BY ima.AMD2_MES_REFERENCIA"
 
   conn = await getConnection();
-  const result = await conn.execute<Faturamento>(
+  const result = await conn.execute<Periodo>(
     query,
     bindParams,
     { outFormat: oracledb.OUT_FORMAT_OBJECT } // evitar injection
@@ -76,3 +76,38 @@ export async function maoDeObraGrafico(
 }
 
 //#endregion
+
+//#region GRAFICO - INVESTIMENTO
+export async function investimentoGrafico(
+  mes: string,
+  ano: string,
+  polo?:string
+): Promise<Result<Periodo> | null> {
+  if (ano === undefined || mes === undefined) return null; // segurança caso não passe parametros obrigatorios
+
+  let conn: Connection;
+
+  let query = `SELECT ima.AMD1_MES_REFERENCIA MES, SUM(AMD1_INVEST_TOTAL) TOTAL
+      FROM INDPORTAL.IND_MODELO_01_AGREG ima
+      WHERE ima.amd1_ano_referencia = :ano AND ima.AMD1_MES_REFERENCIA <= :mes`;
+
+  const bindParams: Record<string, any> = { ano, mes };
+
+  if (polo) {
+    query += " AND ima.amd1_sset_codigo = :polo";
+    bindParams.polo = polo;
+  }
+
+  query += " GROUP BY ima.AMD1_MES_REFERENCIA ORDER BY ima.AMD1_MES_REFERENCIA"
+
+  conn = await getConnection();
+  const result = await conn.execute<Periodo>(
+    query,
+    bindParams,
+    { outFormat: oracledb.OUT_FORMAT_OBJECT } // evitar injection
+  );
+
+  conn.close();
+
+  return result;
+}
