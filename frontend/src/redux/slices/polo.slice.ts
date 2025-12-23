@@ -6,8 +6,8 @@ const initialState: Polo = {
   descricao: "TODOS OS POLOS"
 };
 
-const DashboardSlice = createSlice({
-  name: "DashboardSlice",
+const PoloSlice = createSlice({
+  name: "PoloSlice",
   initialState,
   reducers: {
     setDashPolo: (state, action: PayloadAction<{ id: string, descricao: string }>) => {
@@ -23,5 +23,5 @@ const DashboardSlice = createSlice({
   },
 });
 
-export const { resetDashPolo, setDashPolo } = DashboardSlice.actions;
-export default DashboardSlice.reducer;
+export const { resetDashPolo, setDashPolo } = PoloSlice.actions;
+export default PoloSlice.reducer;

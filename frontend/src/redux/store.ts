@@ -3,11 +3,14 @@
 //import { persistReducer, persistStore } from "redux-persist";
 
 import { configureStore } from "@reduxjs/toolkit";
-import DashboardReducer from "./slices/dashboard.slice";
+import PoloReducer from "./slices/polo.slice";
+import DadosReducer from "./slices/dados.slice";
+
 
 export const store = configureStore({
   reducer: {
-    DashboardReducer,
+    PoloReducer,
+    DadosReducer
   },
 });
 
