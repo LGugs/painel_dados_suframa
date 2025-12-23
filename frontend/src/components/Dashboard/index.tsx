@@ -4,7 +4,7 @@ import CustomCard from "../Cards";
 import Grafico from "../Graficos";
 
 export default function Dashboard(data: DashboardTypes) {
-  //console.log("DATA RECEBIDA PELO COMPONENTE DASHBOARD:", data);
+  
   const cardsPorColuna = 3;
   const colunas: DashboardTypes["cards"][] = [];
 

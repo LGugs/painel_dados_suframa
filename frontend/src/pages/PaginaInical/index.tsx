@@ -24,7 +24,7 @@ const xThemeComponents = {
 };
 
 export default function MainPage(props: { disableCustomTheme?: boolean }) {
-  const poloId = useAppSelector((state) => state.DashboardReducer.id);
+  const poloId = useAppSelector((state) => state.PoloReducer.id);
 
   return (
     <AppTheme {...props} themeComponents={xThemeComponents}>
@@ -62,6 +62,7 @@ export default function MainPage(props: { disableCustomTheme?: boolean }) {
               spacing={4}
               sx={{ width: "100%", flexWrap: "wrap" }}
             >
+              
               <Box sx={{ flex: 1, minWidth: 400 }}>
                 <DashboardPage tipo="Faturamento" polo={poloId} />
               </Box>

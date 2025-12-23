@@ -9,8 +9,6 @@ export async function getDashboardData(tipo: string, polo: string): Promise<Dash
       getGrafico(tipo, polo),
     ]);
 
-    //console.log("HELLO!! " + graficoData);
-
     // Só para retornar os valores com R$
     const cardsComTipo = cardData.map((card) => ({
       ...card,
@@ -21,7 +19,7 @@ export async function getDashboardData(tipo: string, polo: string): Promise<Dash
       tipo,
       cards: cardsComTipo,
       graficos: {
-        type: tipo === "Faturamento" ? "line" : "doughnut",
+        type: tipo === "Faturamento" || tipo === "Investimento" ? "line" : "doughnut",
         data: graficoData,
       },
     };
