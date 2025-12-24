@@ -1,8 +1,12 @@
 import type { DashboardTypes } from "../../interfaces/Dashboard";
 import { getCards } from "../../services/cards.service";
 import { getGrafico } from "../../services/grafico.service";
+import type { TipoDado } from "../../interfaces/Dados";
 
-export async function getDashboardData(tipo: string, polo: string): Promise<DashboardTypes> {
+export async function getDashboardData(
+  tipo: TipoDado,
+  polo: string
+): Promise<DashboardTypes> {
   try {
     const [cardData, graficoData] = await Promise.all([
       getCards(tipo, polo),
@@ -19,7 +23,10 @@ export async function getDashboardData(tipo: string, polo: string): Promise<Dash
       tipo,
       cards: cardsComTipo,
       graficos: {
-        type: tipo === "Faturamento" || tipo === "Investimento" ? "line" : "doughnut",
+        type:
+          tipo === "Faturamento" || tipo === "Investimento"
+            ? "line"
+            : "doughnut",
         data: graficoData,
       },
     };

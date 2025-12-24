@@ -1,10 +1,6 @@
-export interface Dados {
-  id: string;
-  descricao: string;
-}
+export type TipoDado = "Faturamento" | "Mão de Obra" | "Investimento";
 
-export const dados: Dados[] = [
-  { id: "1", descricao: "Faturamento" },
-  { id: "2", descricao: "Mão de Obra" },
-  { id: "3", descricao: "Investimento" }
-];
+export interface Dados {
+  ativos: TipoDado[]; // Sempre dois somente
+  todos: TipoDado[]; // referencia fixa
+}

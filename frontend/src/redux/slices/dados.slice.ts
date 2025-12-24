@@ -1,23 +1,25 @@
-import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import { type Dados } from "../../interfaces/Dados"
+import { createSlice } from "@reduxjs/toolkit";
+import { type Dados } from "../../interfaces/Dados";
 
-const initialState: Dados[] = [
-  {id: "1", descricao: "Faturamento"},
-  {id: "2", descricao: "Mão de Obra"},
-];
+const initialState: Dados = {
+  ativos: ["Faturamento", "Mão de Obra"],
+  todos: ["Faturamento", "Mão de Obra", "Investimento"],
+};
 
 const DadosSlice = createSlice({
   name: "DadosSlice",
   initialState,
   reducers: {
-    setDashDados: (_state: Dados[], action: PayloadAction<Dados[]>) => {
-      return action.payload;
+    substituirEsquerda(state) {
+      const faltante = state.todos.find((t) => !state.ativos.includes(t))!;
+      state.ativos[0] = faltante;
     },
-    resetDashDados: () => {
-      return initialState;
+    substituirDireita(state) {
+      const faltante = state.todos.find((t) => !state.ativos.includes(t))!;
+      state.ativos[1] = faltante;
     },
   },
 });
 
-export const { resetDashDados, setDashDados } = DadosSlice.actions;
+export const { substituirEsquerda, substituirDireita } = DadosSlice.actions;
 export default DadosSlice.reducer;

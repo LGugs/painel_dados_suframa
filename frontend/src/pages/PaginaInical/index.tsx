@@ -1,11 +1,14 @@
 import type {} from "@mui/x-date-pickers/themeAugmentation";
 import type {} from "@mui/x-data-grid-pro/themeAugmentation";
 import type {} from "@mui/x-tree-view/themeAugmentation";
-import PolosToggleGroup from "../../components/ToogleButtons";
+import PolosToggleGroup from "../../components/ToogleButtons/PolosToggleButton";
 import { alpha } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import Copyright from "../../components/Copyright";
 import Header from "../../components/Header";
 import AppTheme from "../../theme/AppTheme";
@@ -15,7 +18,16 @@ import {
   treeViewCustomizations,
 } from "../../theme/customizations";
 import DashboardPage from "../../pages/DashboardPage/";
-import { useAppSelector } from "../../redux/hooks";
+import { useAppSelector, useAppDispatch } from "../../redux/hooks";
+import {
+  selectTiposAtivos,
+  selectTipoFaltante,
+} from "../../redux/selector/dados.selectors";
+import {
+  substituirEsquerda,
+  substituirDireita,
+} from "../../redux/slices/dados.slice";
+import { CustomToggleButton } from "../../components/ToogleButtons/CustomToggleButton";
 
 const xThemeComponents = {
   ...dataGridCustomizations,
@@ -25,6 +37,10 @@ const xThemeComponents = {
 
 export default function MainPage(props: { disableCustomTheme?: boolean }) {
   const poloId = useAppSelector((state) => state.PoloReducer.id);
+  const tiposAtivos = useAppSelector(selectTiposAtivos);
+  const tipoFaltante = useAppSelector(selectTipoFaltante);
+
+  const dispatch = useAppDispatch();
 
   return (
     <AppTheme {...props} themeComponents={xThemeComponents}>
@@ -62,12 +78,11 @@ export default function MainPage(props: { disableCustomTheme?: boolean }) {
               spacing={4}
               sx={{ width: "100%", flexWrap: "wrap" }}
             >
-              
               <Box sx={{ flex: 1, minWidth: 400 }}>
-                <DashboardPage tipo="Faturamento" polo={poloId} />
+                <DashboardPage tipo={tiposAtivos[0]} polo={poloId} />
               </Box>
               <Box sx={{ flex: 1, minWidth: 400 }}>
-                <DashboardPage tipo="Mão de Obra" polo={poloId} />
+                <DashboardPage tipo={tiposAtivos[1]} polo={poloId} />
               </Box>
               <Stack
                 direction="row"
@@ -75,6 +90,41 @@ export default function MainPage(props: { disableCustomTheme?: boolean }) {
                 alignItems="stretch"
                 sx={{ width: "100%", ml: 0 }}
               >
+                <CustomToggleButton
+                  onClick={() => dispatch(substituirEsquerda())}
+                  sx={{ maxWidth: "100%", overflow: "hidden" }}
+                >
+                  <ArrowBackIosIcon />
+                  <Typography
+                    fontWeight="bold"
+                    noWrap
+                    sx={{
+                      textOverflow: "ellipsis",
+                      overflow: "hidden",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {tipoFaltante}
+                  </Typography>
+                </CustomToggleButton>
+                <CustomToggleButton
+                  onClick={() => dispatch(substituirDireita())}
+                  sx={{ maxWidth: "100%", overflow: "hidden" }}
+                >
+                  <Typography
+                    fontWeight="bold"
+                    noWrap
+                    sx={{
+                      textOverflow: "ellipsis",
+                      overflow: "hidden",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {tipoFaltante}
+                  </Typography>
+                  <ArrowForwardIosIcon />
+                </CustomToggleButton>
+
                 <PolosToggleGroup />
               </Stack>
             </Stack>
