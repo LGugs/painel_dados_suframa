@@ -1,18 +1,40 @@
 import oracledb from "oracledb";
 import dotenv from "dotenv";
 
-
 dotenv.config();
 
-// CASO ESTEJA NO CONTAINER PARA QUE ELE RODE, SENÃO EXISTIR É QUE ESTAMOS EM DEV
-console.log("LD_LIBRARY_PATH:", process.env.LD_LIBRARY_PATH);
-console.log("oracledb.oracleClientVersion:", oracledb.oracleClientVersion);
+function initOracle() {
+  const libDir = process.env.ORACLE_CLIENT_LIB_DIR;
+
+  // Plataforma Windows
+  if (process.platform === "win32") {
+    if (!libDir) {
+      throw new Error("ORACLE_CLIENT_LIB_DIR não definido no Windows");
+    }
+
+    oracledb.initOracleClient({ libDir });
+    console.log("Oracle Client inicializado (Windows)");
+    return;
+  }
+
+  // Plataformas Linux ou Mac
+  if (libDir) {
+    // só use se não estiver usando ldconfig
+    oracledb.initOracleClient({ libDir });
+    console.log("Oracle Client inicializado via libDir (Linux/Mac)");
+  } else {
+    console.log("Oracle Client via ldconfig/LD_LIBRARY_PATH (Linux/Mac)");
+  }
+}
 
 try {
-  oracledb.initOracleClient({ libDir: process.env.LD_LIBRARY_PATH });
-  console.log("Oracle Instant Client carregado com sucesso");
-} catch (e) {
-  console.warn("Falha ao inicializar o Oracle Client (pode não ser necessário):", e);
+  initOracle();
+} catch (e: any) {
+  console.error(
+    "Falha ao inicializar o Oracle Client (pode não ser necessário):",
+    e.message
+  );
+  throw e;
 }
 
 export async function getConnection() {
