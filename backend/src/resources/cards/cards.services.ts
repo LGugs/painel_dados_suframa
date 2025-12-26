@@ -134,7 +134,7 @@ export async function investimentoTotalCard(
 
   conn = await getConnection();
 
-  let query = `SELECT SUM(AMD1_INVEST_TOTAL) "TOTAL" 
+  let query = `SELECT SUM(AMD1_INVEST_FIXO) "TOTAL" 
       FROM INDPORTAL.IND_MODELO_01_AGREG ima
       WHERE amd1_ano_referencia = :ano`;
 
@@ -169,7 +169,7 @@ export async function investimentoUltMesCard(
 
   conn = await getConnection();
 
-  let query = `SELECT SUM(AMD1_INVEST_TOTAL) "TOTAL"
+  let query = `SELECT SUM(AMD1_INVEST_FIXO) "TOTAL"
       FROM INDPORTAL.IND_MODELO_01_AGREG ima
       WHERE ima.amd1_ano_referencia = :ano AND ima.AMD1_MES_REFERENCIA = :mes`
 

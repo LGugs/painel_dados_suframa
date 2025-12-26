@@ -87,7 +87,7 @@ export async function investimentoGrafico(
 
   let conn: Connection;
 
-  let query = `SELECT ima.AMD1_MES_REFERENCIA MES, SUM(AMD1_INVEST_TOTAL) TOTAL
+  let query = `SELECT ima.AMD1_MES_REFERENCIA MES, SUM(AMD1_INVEST_FIXO) TOTAL
       FROM INDPORTAL.IND_MODELO_01_AGREG ima
       WHERE ima.amd1_ano_referencia = :ano AND ima.AMD1_MES_REFERENCIA <= :mes`;
 
