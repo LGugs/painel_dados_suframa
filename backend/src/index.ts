@@ -15,7 +15,7 @@ import router from "./router";
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT ?? 3000;
+const PORT = process.env.PORT ?? 3333;
 const FRONTEND_URL = process.env.FRONTEND_URL;
 
 /* interface CompraIngresso {
@@ -37,7 +37,8 @@ declare module "express-session" {
 }*/
 
 app.use(morgan("combined"));
-app.use(cors({ credentials: false, origin: FRONTEND_URL }));
+// Caso .env não for copiado corretamente ou variavel não existir no container o CORS bloqueará tudo
+app.use(cors({ credentials: false, origin: FRONTEND_URL ?? "*" }));
 //app.use(bodyParser.json({limit: "5mb"}));
 app.use(express.json());
 //app.use("/api", swaggerUi.serve, swaggerUi.setup(swaggerFile));
@@ -55,6 +56,7 @@ app.use(express.json());
 //app.use(setLangCookie);
 app.use(router);
 
-app.listen(PORT, () => {
+// Garante acesso externo - porta publicada pelo Docker
+app.listen(Number(PORT), "0.0.0.0", () => {
   console.log(`Servidor rodando SUAVEMENTE na porta ${PORT}`);
 });

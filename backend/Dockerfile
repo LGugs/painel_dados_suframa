@@ -1,4 +1,20 @@
-# Node LTS compatível com oracledb
+# ======================
+# STAGE 1 — BUILD
+# ======================
+FROM node:20-slim AS build
+
+WORKDIR /usr/src/app
+
+COPY package.json package-lock.json* ./
+RUN npm install
+
+COPY . .
+
+RUN npm run build
+
+# ======================
+# STAGE 2 — RUNTIME
+# ======================
 FROM node:20-slim
 
 # Dependências do sistema
@@ -22,14 +38,10 @@ RUN mkdir -p /opt/oracle && \
 
 WORKDIR /usr/src/app
 
-# Copia apenas manifests primeiro (cache)
-COPY package.json package-lock.json* ./
-RUN npm install --production
-
-# Copia o restante da aplicação
-COPY . .
-
-RUN npm run build
+# Copia apenas o necessário para produção
+COPY --from=build /usr/src/app/package.json ./
+COPY --from=build /usr/src/app/node_modules ./node_modules
+COPY --from=build /usr/src/app/dist ./dist
 
 EXPOSE 3333
-CMD ["npm", "run", "start"]
+CMD ["node", "dist/index.js"]
