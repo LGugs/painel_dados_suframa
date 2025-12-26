@@ -11,9 +11,6 @@ import { stackCustomizations } from './customizations/stacks';
 
 interface AppThemeProps {
   children: React.ReactNode;
-  /**
-   * This is for the docs site. You can ignore it or remove it.
-   */
   disableCustomTheme?: boolean;
   themeComponents?: ThemeOptions['components'];
 }
@@ -34,6 +31,43 @@ export default function AppTheme(props: AppThemeProps) {
           shadows,
           shape,
           components: {
+            MuiCssBaseline: {
+              styleOverrides: {
+                body: {
+                  backgroundRepeat: 'no-repeat',
+                  backgroundPosition: 'center',
+                  backgroundAttachment: 'fixed',
+                  backgroundSize: '10%',
+                },
+              
+              'html[data-mui-color-scheme="light"] body': {
+                backgroundImage: 'url("/images/background-suframa.jpg")',
+              },
+
+              'html[data-mui-color-scheme="dark"] body': {
+                backgroundImage: 'url("/images/background-suframa-alt.png")',
+              },
+              
+              /* OVERLAY (opacidade real) */
+              'body::before': {
+                content: '""',
+                position: 'fixed',
+                inset: 0,
+                pointerEvents: 'none',
+                zIndex: 0,
+              },
+
+              /* OVERLAY LIGHT */
+              'html[data-mui-color-scheme="light"] body::before': {
+                backgroundColor: 'rgba(255, 255, 255, 0.65)',
+              },
+
+              /* OVERLAY DARK */
+              'html[data-mui-color-scheme="dark"] body::before': {
+                backgroundColor: 'rgba(0, 0, 0, 0.55)',
+              },
+            },
+          },
             ...inputsCustomizations,
             ...dataDisplayCustomizations,
             ...feedbackCustomizations,
