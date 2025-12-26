@@ -22,7 +22,7 @@ export default function DashboardPage({tipo, polo}:DashboardTypes) {
       display="flex"
       justifyContent="center"
       alignItems="center"
-      height="410px"
+      height="408px"
     >
       <CircularProgress />
     </Box>
