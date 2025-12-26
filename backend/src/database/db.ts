@@ -5,9 +5,10 @@ dotenv.config();
 
 function initOracle() {
   const libDir = process.env.ORACLE_CLIENT_LIB_DIR;
+  const runningInDocker = process.env.RUNNING_IN_DOCKER === "true";
 
   // Plataforma Windows
-  if (process.platform === "win32") {
+  if (process.platform === "win32" && !runningInDocker) {
     if (!libDir) {
       throw new Error("ORACLE_CLIENT_LIB_DIR não definido no Windows");
     }
@@ -17,13 +18,13 @@ function initOracle() {
     return;
   }
 
-  // Plataformas Linux ou Mac
-  if (libDir) {
+  // Plataformas Linux/Docker
+  if (!runningInDocker && libDir) {
     // só use se não estiver usando ldconfig
     oracledb.initOracleClient({ libDir });
-    console.log("Oracle Client inicializado via libDir (Linux/Mac)");
+    console.log("Oracle Client inicializado via libDir (Linux)");
   } else {
-    console.log("Oracle Client via ldconfig/LD_LIBRARY_PATH (Linux/Mac)");
+    console.log("Oracle Client via ldconfig (Linux/Docker)");
   }
 }
 
@@ -31,7 +32,7 @@ try {
   initOracle();
 } catch (e: any) {
   console.error(
-    "Falha ao inicializar o Oracle Client (pode não ser necessário):",
+    "Falha ao inicializar o Oracle Client:",
     e.message
   );
   throw e;
