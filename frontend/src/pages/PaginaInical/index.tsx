@@ -2,7 +2,6 @@ import type {} from "@mui/x-date-pickers/themeAugmentation";
 import type {} from "@mui/x-data-grid-pro/themeAugmentation";
 import type {} from "@mui/x-tree-view/themeAugmentation";
 import PolosToggleGroup from "../../components/ToogleButtons/PolosToggleButton";
-import { alpha } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
