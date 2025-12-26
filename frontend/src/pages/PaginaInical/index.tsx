@@ -48,16 +48,16 @@ export default function MainPage(props: { disableCustomTheme?: boolean }) {
         {/* Main content */}
         <Box
           component="main"
-          sx={(theme) => ({
+          sx={() => ({
             flexGrow: 1,
             height: "100%",
             minHeight: "100vh",
-            backgroundColor: theme.vars
-              ? `rgba(${theme.vars.palette.background.defaultChannel} / 1)`
-              : alpha(theme.palette.background.default, 1),
+            backgroundColor: "transparent",
             display: "flex",
             flexDirection: "column",
             justifyContent: "space-between",
+            position: 'relative',
+            zIndex: 1,
           })}
         >
           <Stack
@@ -77,22 +77,22 @@ export default function MainPage(props: { disableCustomTheme?: boolean }) {
               sx={{ width: "100%", flexWrap: "wrap" }}
             >
               <Box sx={{ flex: 1, minWidth: { xs: "100%", md: 400 } }}>
-                <DashboardSlot
+                {tipoEsquerda && tipoFaltante && <DashboardSlot
                   tipo={tipoEsquerda}
                   poloId={poloId}
                   onClick={() => dispatch(substituirEsquerda())}
                   iconFirst={true}
                   label={tipoFaltante}
-                />
+                />}
               </Box>
               <Box sx={{ flex: 1, minWidth: { xs: "100%", md: 400 } }}> {/* Ajuste de minWidth para dispositivos menores */}
-                <DashboardSlot
+                {tipoDireita && tipoFaltante && <DashboardSlot
                   tipo={tipoDireita}
                   poloId={poloId}
                   onClick={() => dispatch(substituirDireita())}
                   iconFirst={false}
                   label={tipoFaltante}
-                />
+                />}
               </Box>
               <Stack
                 direction="row"
