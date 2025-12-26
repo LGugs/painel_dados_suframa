@@ -5,26 +5,25 @@ dotenv.config();
 
 function initOracle() {
   const libDir = process.env.ORACLE_CLIENT_LIB_DIR;
-  const runningInDocker = process.env.RUNNING_IN_DOCKER === "true";
 
-  // Plataforma Windows
-  if (process.platform === "win32" && !runningInDocker) {
-    if (!libDir) {
-      throw new Error("ORACLE_CLIENT_LIB_DIR não definido no Windows");
+  try {
+    if (process.platform === "win32") {
+      if (!libDir) {
+        throw new Error("ORACLE_CLIENT_LIB_DIR não definido no Windows");
+      }
+
+      oracledb.initOracleClient({ libDir }); // para iniciar o Oracle Client no Windows em modo Thick, pois o Thin é o padrão e o mesmo não reconhece senhas complexas
+      console.log("Oracle Client inicializado (Windows)");
+    } else {
+      // Linux / Docker → usa ldconfig
+      oracledb.initOracleClient();
+      console.log("Oracle Client inicializado (Linux/Docker - ldconfig)");
     }
 
-    oracledb.initOracleClient({ libDir });
-    console.log("Oracle Client inicializado (Windows)");
-    return;
-  }
-
-  // Plataformas Linux/Docker
-  if (!runningInDocker && libDir) {
-    // só use se não estiver usando ldconfig
-    oracledb.initOracleClient({ libDir });
-    console.log("Oracle Client inicializado via libDir (Linux)");
-  } else {
-    console.log("Oracle Client via ldconfig (Linux/Docker)");
+    console.log("Oracle Thick mode:", oracledb.thin === false);
+  } catch (err: any) {
+    console.error("Falha ao inicializar Oracle Client:", err.message);
+    throw err;
   }
 }
 
