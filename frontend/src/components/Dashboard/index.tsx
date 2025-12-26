@@ -21,7 +21,7 @@ export default function Dashboard(data: DashboardTypes) {
         pb: 2,
         mb: 1,
         boxSizing: "border-box",
-        bgcolor: "background.default",
+        bgcolor: "transparent",
       }}
     >
       {/* cards */}

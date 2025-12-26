@@ -11,6 +11,7 @@ export default function CustomCard({ tipo, titulo, valor, sx }: CardProps) {
         width: "100%",
         display: "flex",
         flexDirection: "column",
+        background: "transparent",
         ...sx, // permite sobrescrever caracteristicas visuais
       }}
     >
@@ -33,7 +34,7 @@ export default function CustomCard({ tipo, titulo, valor, sx }: CardProps) {
                 textOverflow: "ellipsis",
               }}
             >
-              {tipo === "Faturamento"
+              {tipo != "Mão de Obra"
                 ? `R$ ${convertNumber(valor,2)}`
                 : convertNumber(valor)}
             </Typography>
