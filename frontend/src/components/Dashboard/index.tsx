@@ -17,14 +17,15 @@ export default function Dashboard(data: DashboardTypes) {
       sx={{
         width: "100%",
         minHeight: "auto",
-        pb: 4,
+        height: "400px",
+        pb: 2,
         mb: 1,
         boxSizing: "border-box",
         bgcolor: "background.default",
       }}
     >
       {/* cards */}
-      <Typography component="h1" variant="h6" fontWeight="bold" sx={{ mb: 2 }}>
+      <Typography component="h1" variant="h6" fontWeight="bold" sx={{ mb: 1 }}>
         {data.tipo.toUpperCase()}
       </Typography>
       <Box display="flex" gap={3} alignItems="flex-start" width="100%">
