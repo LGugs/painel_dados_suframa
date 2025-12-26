@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "nodemon -e js,json,ts,yaml src/index.ts",
     "build": "tsc",
-    "start": "node src/index.ts"
+    "start": "node build/index.js"
   },
   "keywords": [
     "suframa"
