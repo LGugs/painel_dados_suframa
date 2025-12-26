@@ -6,18 +6,15 @@ import { alpha } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
-import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import Copyright from "../../components/Copyright";
 import Header from "../../components/Header";
 import AppTheme from "../../theme/AppTheme";
+import DashboardSlot from "../../pages/DashboardPage/dashboardSlots";
 import {
   dataGridCustomizations,
   datePickersCustomizations,
   treeViewCustomizations,
 } from "../../theme/customizations";
-import DashboardPage from "../../pages/DashboardPage/";
 import { useAppSelector, useAppDispatch } from "../../redux/hooks";
 import {
   selectTiposAtivos,
@@ -27,7 +24,6 @@ import {
   substituirEsquerda,
   substituirDireita,
 } from "../../redux/slices/dados.slice";
-import { CustomToggleButton } from "../../components/ToogleButtons/CustomToggleButton";
 
 const xThemeComponents = {
   ...dataGridCustomizations,
@@ -39,6 +35,7 @@ export default function MainPage(props: { disableCustomTheme?: boolean }) {
   const poloId = useAppSelector((state) => state.PoloReducer.id);
   const tiposAtivos = useAppSelector(selectTiposAtivos);
   const tipoFaltante = useAppSelector(selectTipoFaltante);
+  const [tipoEsquerda, tipoDireita] = tiposAtivos;
 
   const dispatch = useAppDispatch();
 
@@ -66,6 +63,7 @@ export default function MainPage(props: { disableCustomTheme?: boolean }) {
           <Stack
             spacing={2}
             sx={{
+              pt: 0,
               width: "100%",
               maxWidth: "100%",
               mx: "auto",
@@ -78,53 +76,30 @@ export default function MainPage(props: { disableCustomTheme?: boolean }) {
               spacing={4}
               sx={{ width: "100%", flexWrap: "wrap" }}
             >
-              <Box sx={{ flex: 1, minWidth: 400 }}>
-                <DashboardPage tipo={tiposAtivos[0]} polo={poloId} />
+              <Box sx={{ flex: 1, minWidth: { xs: "100%", md: 400 } }}>
+                <DashboardSlot
+                  tipo={tipoEsquerda}
+                  poloId={poloId}
+                  onClick={() => dispatch(substituirEsquerda())}
+                  iconFirst={true}
+                  label={tipoFaltante}
+                />
               </Box>
-              <Box sx={{ flex: 1, minWidth: 400 }}>
-                <DashboardPage tipo={tiposAtivos[1]} polo={poloId} />
+              <Box sx={{ flex: 1, minWidth: { xs: "100%", md: 400 } }}> {/* Ajuste de minWidth para dispositivos menores */}
+                <DashboardSlot
+                  tipo={tipoDireita}
+                  poloId={poloId}
+                  onClick={() => dispatch(substituirDireita())}
+                  iconFirst={false}
+                  label={tipoFaltante}
+                />
               </Box>
               <Stack
                 direction="row"
                 flexWrap="wrap"
                 alignItems="stretch"
-                sx={{ width: "100%", ml: 0 }}
+                sx={{ width: "100%", ml: 0, pt: 2 }}
               >
-                <CustomToggleButton
-                  onClick={() => dispatch(substituirEsquerda())}
-                  sx={{ maxWidth: "100%", overflow: "hidden" }}
-                >
-                  <ArrowBackIosIcon />
-                  <Typography
-                    fontWeight="bold"
-                    noWrap
-                    sx={{
-                      textOverflow: "ellipsis",
-                      overflow: "hidden",
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    {tipoFaltante}
-                  </Typography>
-                </CustomToggleButton>
-                <CustomToggleButton
-                  onClick={() => dispatch(substituirDireita())}
-                  sx={{ maxWidth: "100%", overflow: "hidden" }}
-                >
-                  <Typography
-                    fontWeight="bold"
-                    noWrap
-                    sx={{
-                      textOverflow: "ellipsis",
-                      overflow: "hidden",
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    {tipoFaltante}
-                  </Typography>
-                  <ArrowForwardIosIcon />
-                </CustomToggleButton>
-
                 <PolosToggleGroup />
               </Stack>
             </Stack>
