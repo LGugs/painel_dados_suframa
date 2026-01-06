@@ -9,13 +9,17 @@ import {
 import { getDoisMesesAnteriores, type MesPassado } from "../../utils/ultMes";
 import { Result } from "oracledb";
 import { MaoDeObra, Cards } from "./cards.types";
+import getPeriodoReferencia from "../../utils/periodoReferencia";
 
 async function getCards(req: Request, res: Response): Promise<any> {
   const tipo = req.query.tipo;
   const polo = req.query.polo as string | undefined; // opcional
   const mesValido: MesPassado = getDoisMesesAnteriores();
-  const ano = new Date().getFullYear();
-  const anoPassado = ano - 1;
+
+  const { mes: mesConsulta, ano: anoConsulta } = getPeriodoReferencia();
+  
+  const anoPassado = anoConsulta - 1;
+  const ano = anoConsulta;
 
   // deve constar: Total, Ultimo Mes e Ano Passado no faturamento.
   if (tipo === "Faturamento") {
@@ -43,7 +47,7 @@ async function getCards(req: Request, res: Response): Promise<any> {
       const totalAnoPassado = totalAnoAnt.rows[0];
 
       const cards: Cards[] = [
-        { titulo: "TOTAL DO ANO ATUAL", valor: totalAno.TOTAL ?? 0 },
+        { titulo: "TOTAL DO ANO VIGENTE", valor: totalAno.TOTAL ?? 0 },
         { titulo: "ULT. MÊS INFORMADO", valor: totalMes.TOTAL ?? 0 },
         {
           titulo: "ANO PASSADO (" + anoPassado + ")",
@@ -110,7 +114,7 @@ async function getCards(req: Request, res: Response): Promise<any> {
       const totalAnoPassado = totalAnoAnt.rows[0];
 
       const cards: Cards[] = [
-        { titulo: "TOTAL DO ANO ATUAL", valor: totalAno.TOTAL ?? 0 },
+        { titulo: "TOTAL DO ANO VIGENTE", valor: totalAno.TOTAL ?? 0 },
         { titulo: "ULT. MÊS INFORMADO", valor: totalMes.TOTAL ?? 0 },
         {
           titulo: "ANO PASSADO (" + anoPassado + ")",

@@ -4,17 +4,19 @@ import { getDoisMesesAnteriores, type MesPassado } from "../../utils/ultMes";
 import { Result } from "oracledb";
 import { MaoDeObra, Graficos, Periodo, Meses } from "./graficos.types";
 import { todosOsValoresSaoZeros } from "../../utils/validacoes";
+import getPeriodoReferencia from "../../utils/periodoReferencia";
 
 export async function getGrafico(req: Request, res: Response): Promise<any> {
   const tipo = req.query.tipo;
   const polo = req.query.polo as string | undefined;
 
-  if (tipo === "Faturamento") {
-    const data = new Date();
+  const { mes: mesConsulta, ano: anoConsulta } = getPeriodoReferencia();
+
+  if (tipo === "Faturamento") {  
     try {
       const resultado: Result<Periodo> | null = await faturamentoGrafico(
-        data.getMonth().toString(),
-        data.getFullYear().toString(),
+        mesConsulta.toString(),
+        anoConsulta.toString(),
         polo
       );
 
@@ -77,11 +79,11 @@ export async function getGrafico(req: Request, res: Response): Promise<any> {
       return res.status(500).json(error);
     }
   } else if (tipo === "Investimento") {
-    const data = new Date();
+    
     try {
       const resultado: Result<Periodo> | null = await investimentoGrafico(
-        data.getMonth().toString(),
-        data.getFullYear().toString(),
+        mesConsulta.toString(),
+        anoConsulta.toString(),
         polo
       );
 
