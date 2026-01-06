@@ -1,6 +1,6 @@
 {
   "name": "painel_backend",
-  "version": "1.0.0",
+  "version": "1.1.1",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon -e js,json,ts,yaml src/index.ts",
@@ -14,14 +14,11 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@prisma/client": "^5.7.1",
     "@types/express": "^4.17.17",
     "@types/lodash": "^4.14.202",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
-    "envalid": "^8.0.0",
     "express": "^5.1.0",
-    "lodash": "^4.17.21",
     "morgan": "^1.10.0",
     "oracledb": "^6.8.0"
   },

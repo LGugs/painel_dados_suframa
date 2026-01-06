@@ -1,6 +1,6 @@
 {
   "name": "painel_dados_suframa",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Painel de dados para consulta",
   "main": "index.js",
   "scripts": {
